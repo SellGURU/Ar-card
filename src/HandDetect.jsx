@@ -14,6 +14,7 @@ const HandDetect = () => {
     const recvResults = (results) => {
         let width = results.image.width;
         let height = results.image.height;
+        console.log(height)
         if (window.innerWidth != canvasElement.width) {
           canvasElement.width = window.innerWidth;
           canvasElement.height = (height * window.innerWidth) / width;
@@ -25,6 +26,7 @@ const HandDetect = () => {
         if (results.multiHandLandmarks) {
           for (const landmarks of results.multiHandLandmarks) {
             setResiltsBox(landmarks)
+            console.log(height)
             console.log(landmarks)
             drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
               color: "#00FF00",
@@ -86,7 +88,7 @@ const HandDetect = () => {
     return (
         <>
         <div style={{}}>
-            <button style={{position:'absolute',right:0,zIndex:10}} onClick={() => {
+            <button style={{position:'absolute',right:0,zIndex:3000}} onClick={() => {
                 configure()
             }}>ready</button>
             <video
@@ -96,7 +98,15 @@ const HandDetect = () => {
                 style={{position:'absolute',display:'none'}}
             ></video>
             {resultsBox.length > 0?
-                <video autoPlay muted loop style={{position:'absolute',zIndex:200,left:resultsBox[8].x * window.innerWidth ,height:ResolveDistance(resultsBox[8],resultsBox[0]) * window.innerHeight,width:ResolveDistance(resultsBox[4],resultsBox[0])*window.innerWidth ,top:resultsBox[8].y * window.innerHeight}} src='./lion.mp4'></video>
+                <video autoPlay muted loop 
+                style={{
+                    position:'absolute',
+                    zIndex:200,
+                    right:(1 - resultsBox[8].x) * window.innerWidth ,
+                    height:ResolveDistance(resultsBox[8],resultsBox[0]) * window.innerHeight,
+                    width:ResolveDistance(resultsBox[4],resultsBox[0])*window.innerWidth ,
+                    top:resultsBox[8].y * window.innerHeight
+                }} src='./lion.mp4'></video>
             :undefined}
             <img
                 id="beam"
@@ -106,7 +116,7 @@ const HandDetect = () => {
                     display:'none'
                 }}
             />
-            <canvas id="output_canvas" style={{position:'absolute',top:0,zIndex:100}}></canvas>        
+            <canvas id="output_canvas" style={{position:'absolute',width:'100%',height:'100vh',top:0,zIndex:100}}></canvas>        
 
         </div>
         </>
