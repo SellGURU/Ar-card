@@ -110,29 +110,48 @@ const HandDetect2 = () => {
           style={{ position: "absolute", display: "none" }}
         ></video>
         {resultsBox.length > 0 ? (
-          <video
+          // <video
+          //   autoPlay
+          //   muted
+          //   loop
+          //   style={{
+          //     position: "absolute",
+          //     zIndex: 200,
+          //     right:
+          //       handSide === "Right"
+          //         ? `${ (1-resultsBox[8].x) * window.innerWidth}px`
+          //         : undefined,
+          //     left:
+          //       handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
+          //     height:
+          //       ResolveDistance(resultsBox[8], resultsBox[3]) *
+          //       window.innerHeight,
+          //     width:
+          //       ResolveDistance(resultsBox[4], resultsBox[0]) *
+          //       window.innerWidth,
+          //     top:`${ (resultsBox[8].y) * window.innerWidth}px`
+          //   }}
+          //   src="./lion.mp4"
+          // ></video>
+          <video           
             autoPlay
             muted
-            loop
-            style={{
-              position: "absolute",
-              zIndex: 200,
-              right:
-                handSide === "Right"
-                  ? `${ (1-resultsBox[8].x) * window.innerWidth}px`
-                  : undefined,
-              left:
-                handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
-              height:
-                ResolveDistance(resultsBox[8], resultsBox[3]) *
-                window.innerHeight,
-              width:
-                ResolveDistance(resultsBox[4], resultsBox[0]) *
-                window.innerWidth,
-              top:`${ (resultsBox[8].y) * window.innerWidth}px`
-            }}
+            loop         
             src="./lion.mp4"
-          ></video>
+            style={{
+              position:'absolute',
+              zIndex: 200,
+              // width: '50px',
+              // height: '50px',
+              right:`${ (1-resultsBox[8].x) * window.innerWidth}px`,
+              top:`${ (resultsBox[8].y) * window.innerHeight}px`,
+              objectFit:'cover',
+              height:`${ (Math.abs(resultsBox[8].y - resultsBox[2].y)) * window.innerHeight}px`,
+              width:`${ (Math.abs(resultsBox[8].x - resultsBox[4].x)) * window.innerWidth}px`
+            }} 
+          >
+
+          </video>
         ) : undefined}
         <img
           id="beam"
@@ -144,7 +163,7 @@ const HandDetect2 = () => {
         />
         <canvas
           id="output_canvas"
-          style={{ position: "absolute", top: 0, zIndex: 100 }}
+          style={{ position: "absolute",width:'100%',height:'100vh', top: 0, zIndex: 100 }}
         ></canvas>
       </div>
     </>
