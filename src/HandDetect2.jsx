@@ -96,7 +96,7 @@ const HandDetect2 = () => {
     <>
       <div style={{}}>
         <button
-          style={{ position: "absolute", right: 0, zIndex: 10 }}
+          style={{ position: "absolute", right: 0, zIndex: 300 }}
           onClick={() => {
             configure();
           }}
