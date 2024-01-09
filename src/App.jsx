@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HandDetect2 from "./HandDetect2";
+import HandDetect from "./HandDetect";
 import Resome from './Resume.json';
 import { useConstructor } from "./help";
 import Resume from "./api/Resume";
@@ -19,8 +20,8 @@ function App() {
   const [isLoading,setIsLaoding] = useState(true)
   // console.log(Resome)
   const [router,setRouter] = useState(createHashRouter([{
-          path:'admin-panel',
-          element: <div></div>,
+          path:'detect1',
+          element: <HandDetect></HandDetect>,
       }]))    
   useConstructor(() => {
     // Resume.getAll((res) => {
@@ -41,6 +42,10 @@ function App() {
               path:item.path,
               element: <HandDetect2 apikey={item.apikey} cardData={item.cardData} />,
             }      
+        })
+        resolveRouter.push({
+          path:'detect1',
+          element: <HandDetect></HandDetect>,          
         })
           setRouter(createHashRouter(resolveRouter));          
           setIsLaoding(false)    
