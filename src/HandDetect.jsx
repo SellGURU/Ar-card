@@ -2,7 +2,7 @@
 
 import { useConstructor } from "./help";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const HandDetect = () => {
   let canvasElement;
@@ -14,6 +14,17 @@ const HandDetect = () => {
   };
   const [resultsBox, setResiltsBox] = useState({});
   const [handSide, setHandSide] = useState({});
+  // const [resetResultsBox, setResetResultsBox] = useState(false);
+
+  useEffect(() => {
+    let timeoutId;
+    const resetResults = () => {
+      setResiltsBox({});
+      // setResetResultsBox(true);
+    };
+    timeoutId = setTimeout(resetResults, 2000);
+    return () => clearTimeout(timeoutId);
+  }, [resultsBox]);
 
   const recvResults = (results) => {
     let width = results.image.width;
@@ -35,7 +46,7 @@ const HandDetect = () => {
     if (results.multiHandLandmarks) {
       for (const landmarks of results.multiHandLandmarks) {
         setResiltsBox(landmarks);
-
+        // setResetResultsBox(false);
         drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
           color: "#00FF00",
           lineWidth: 2,
@@ -92,6 +103,7 @@ const HandDetect = () => {
     camera.start();
   };
   // console.log("8 to 4 in x ", Math.abs(resultsBox[8].x - resultsBox[4].x));
+  console.log("resultsBox.length", resultsBox.length);
   return (
     <>
       <div style={{}}>
@@ -115,6 +127,7 @@ const HandDetect = () => {
             muted
             loop
             style={{
+              display: resultsBox.length === 0 && "none",
               position: "absolute",
               objectFit: "fill",
               zIndex: 200,
