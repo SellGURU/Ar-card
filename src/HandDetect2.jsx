@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 
-import { CvProject } from "./Components";
+import { ButtomController, CvProject } from "./Components";
 import { useConstructor } from "./help";
-
-import { useState } from "react";
+import annyang from 'annyang';
+import { useState,useEffect } from "react";
 
 const HandDetect2 = (props) => {
   let canvasElement;
@@ -16,7 +16,28 @@ const HandDetect2 = (props) => {
   };
   const [resultsBox, setResiltsBox] = useState({});
   const [handSide, setHandSide] = useState({});
+  useEffect(() => {
+    if(annyang){
+      annyang.addCallback('result', function (phrases) {
+        // console.log(phrases)
+        setResolveText(phrases[0])
+        // sendToApi()
+      });        
+    }
+  })
+  const [resolveText,setResolveText] = useState('')
+  const [isRecording,setIsRecording] = useState(false)
 
+  const startSpeetchToText = () => {
+    setResolveText('')
+    annyang.start({ autoRestart: true, continuous: false });
+    setIsRecording(true)
+    // console.log(annyang.isListening())
+  } 
+  const stopSpeetchToText = () => {
+    annyang.abort()
+    setIsRecording(false)
+  }  
   const recvResults = (results) => {
     let width = results.image.width;
     let height = results.image.height;
@@ -198,6 +219,10 @@ const HandDetect2 = (props) => {
           id="output_canvas"
           style={{ position: "absolute",width:'100%',height:'100vh', top: 0, zIndex: 100 }}
         ></canvas>
+      </div>
+      <div style={{position:'absolute',bottom:20,zIndex:600,left:0,width:'100%',display:'flex',justifyContent:'center'}}>
+        <div style={{position:'absolute',bottom: 100}}>{resolveText}</div>
+        <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import "./index.css";
 // import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 // import HandDetect2 from "./HandDetect2.jsx";
 import App from "./App.jsx";
-
+import 'symphony-ui/Themes/index.scss';
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App></App>

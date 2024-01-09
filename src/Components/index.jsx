@@ -1,3 +1,4 @@
+import ButtomController from "./ButtomController";
 import CvProject from "./Cv";
 
-export {CvProject}
+export {ButtomController,CvProject}
