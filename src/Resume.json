@@ -1,0 +1,34 @@
+[
+    {
+        "name":"Farzin Azami",
+        "path":"farzin-Azami",
+        "apikey":"0e218a19f41b4eb689003fa634889a19",
+        "cardData": {
+            "webAddress":"www.Codie.ai",
+            "name":"Farzin Azami",
+            "role":"Founder of Codie",
+            "phone":"07882959722",
+            "email":"Azami@codie.ai",
+            "linkedin":"https://www.linkedin.com/in/dr-farzin-azami-0919712b/",
+            "silentvideo":"./images/02.mp4",
+            "chatvideo":"./images/03.mp4",
+            "introvideo":"./images/01.mp4"
+        }   
+    },
+    {
+        "name":"mona",
+        "path":"mona-Azami",
+        "apikey":"3a69718c65044d0c9171fa14ebfa837d",
+        "cardData": {
+            "webAddress":"www.mona.azami",
+            "name":"Mona Azami",
+            "role":"Mathematics Tutor",            
+            "phone":"07411507380",
+            "email":"mona.azami@gmail.com",
+            "linkedin":"https://www.linkedin.com/in/mona-azami/",
+            "silentvideo":"./images/01-Mona.mp4",
+            "chatvideo":"./images/03-Mona.mp4",
+            "introvideo":"./images/02-Mona.mp4"            
+        }        
+    }    
+]

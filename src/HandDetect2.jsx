@@ -1,10 +1,12 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 
+import { CvProject } from "./Components";
 import { useConstructor } from "./help";
 
 import { useState } from "react";
 
-const HandDetect2 = () => {
+const HandDetect2 = (props) => {
   let canvasElement;
   let canvasCtx;
   const ResolveDistance = (dot1, dot2) => {
@@ -56,6 +58,7 @@ const HandDetect2 = () => {
     document.onload = () => {
       configure();
     };
+    console.log(props)
   });
   // console.log("handSide", handSide);
   const configure = () => {
@@ -74,7 +77,7 @@ const HandDetect2 = () => {
     });
     hands.setOptions({
       selfieMode: true, //Flip the image horizontally.
-      maxNumHands: 1, //The maximum number of recognizable hands.
+      maxNumHands: 2, //The maximum number of recognizable hands.
       modelComplexity: 1, //Settings related to accuracy(0~1)
       minDetectionConfidence: 0.5, //Confidence in hand detection.
       minTrackingConfidence: 0.5, //Confidence in hand tracking
@@ -133,25 +136,55 @@ const HandDetect2 = () => {
           //   }}
           //   src="./lion.mp4"
           // ></video>
-          <video           
-            autoPlay
-            muted
-            loop         
-            src="./lion.mp4"
-            style={{
-              position:'absolute',
-              zIndex: 200,
-              // width: '50px',
-              // height: '50px',
-              right:`${ (1-resultsBox[8].x) * window.innerWidth}px`,
-              top:`${ (resultsBox[8].y) * window.innerHeight}px`,
-              objectFit:'cover',
-              height:`${ (Math.abs(resultsBox[8].y - resultsBox[2].y)) * window.innerHeight}px`,
-              width:`${ (Math.abs(resultsBox[8].x - resultsBox[4].x)) * window.innerWidth}px`
-            }} 
-          >
+          // <video           
+          //   autoPlay
+          //   muted
+          //   loop         
+          //   src="./lion.mp4"
+          //   style={{
+          //     position:'absolute',
+          //     zIndex: 200,
+          //     // width: '50px',
+          //     // height: '50px',
+          //     right:
+          //       handSide === "Right"
+          //         ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+          //         : undefined,
+          //     left:
+          //       handSide === "Left"
+          //         ? `${resultsBox[8].x * window.innerWidth}px`
+          //         : undefined,              
+          //     top:`${ (resultsBox[8].y) * window.innerHeight}px`,
+          //     objectFit:'cover',
+          //     height:`${ (Math.abs(resultsBox[8].y - resultsBox[2].y)) * window.innerHeight}px`,
+          //     width:`${ (Math.abs(resultsBox[8].x - resultsBox[4].x)) * window.innerWidth}px`
+          //   }} 
+          // >
 
-          </video>
+          // </video>
+          <div style={{
+            // backgroundColor:'white',
+            backgroundColor:'rgba(255, 255, 255, .1)',
+            position:'absolute',
+            // opacity:'0.3',
+            zIndex: 200,
+            right:
+              handSide === "Right"
+                ? `${ (1-resultsBox[8].x) * window.innerWidth}px`
+                : undefined,
+            left:
+              handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
+            height:
+              ResolveDistance(resultsBox[8], resultsBox[3]) *
+              window.innerHeight,
+            width:
+              ResolveDistance(resultsBox[4], resultsBox[0]) *
+              window.innerWidth,
+            top:`${ (resultsBox[8].y) * window.innerHeight}px`,
+            overflow:'hidden'     
+          }}>
+            <CvProject apikey={props.apikey} cardData={props.cardData}></CvProject>
+          </div>
         ) : undefined}
         <img
           id="beam"
