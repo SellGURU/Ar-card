@@ -91,7 +91,7 @@ const HandDetect = () => {
     });
     camera.start();
   };
-
+  console.log("8 to 4 in x ", Math.abs(resultsBox[8].x - resultsBox[4].x));
   return (
     <>
       <div style={{}}>
@@ -115,17 +115,25 @@ const HandDetect = () => {
             muted
             loop
             style={{
+              position: "absolute",
+              objectFit: "fill",
+              zIndex: 200,
               // right: `${(1 - resultsBox[8].x) * window.innerWidth}px`,
               top: `${resultsBox[8].y * window.innerHeight}px`,
-              objectFit: "cover",
               height: `${
-                Math.abs(resultsBox[8].y - resultsBox[2].y) * window.innerHeight
+                Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight
               }px`,
-              width: `${
-                Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
-              }px`,
-              position: "absolute",
-              zIndex: 200,
+              width:
+                Math.abs(resultsBox[8].x - resultsBox[4].x) > 0.2
+                  ? `${
+                      Math.abs(resultsBox[8].x - resultsBox[4].x) *
+                      window.innerWidth
+                    }px`
+                  : undefined,
+              // width: `${
+              //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
+              // }px`,
+
               right:
                 handSide === "Right"
                   ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
