@@ -96,7 +96,7 @@ const HandDetect = () => {
     <>
       <div style={{}}>
         <button
-          style={{ position: "absolute", right: 0, zIndex: 10 }}
+          style={{ position: "absolute", right: 0, zIndex: 300 }}
           onClick={() => {
             configure();
           }}
@@ -115,21 +115,38 @@ const HandDetect = () => {
             muted
             loop
             style={{
+              // right: `${(1 - resultsBox[8].x) * window.innerWidth}px`,
+              top: `${resultsBox[8].y * window.innerHeight}px`,
+              objectFit: "cover",
+              height: `${
+                Math.abs(resultsBox[8].y - resultsBox[2].y) * window.innerHeight
+              }px`,
+              width: `${
+                Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
+              }px`,
               position: "absolute",
               zIndex: 200,
               right:
                 handSide === "Right"
-                  ? `${100 - resultsBox[8].x * 100}%`
+                  ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
                   : undefined,
               left:
-                handSide === "Left" ? `${resultsBox[8].x * 100}%` : undefined,
-              height:
-                ResolveDistance(resultsBox[8], resultsBox[3]) *
-                window.innerHeight,
-              width:
-                ResolveDistance(resultsBox[4], resultsBox[0]) *
-                window.innerWidth,
-              bottom: `${100 - resultsBox[2].y * 100}%`,
+                handSide === "Left"
+                  ? `${resultsBox[8].x * window.innerWidth}px`
+                  : undefined,
+              // right:
+              //   handSide === "Right"
+              //     ? `${100 - resultsBox[8].x * 100}%`
+              //     : undefined,
+              // left:
+              //   handSide === "Left" ? `${resultsBox[8].x * 100}%` : undefined,
+              // height:
+              //   ResolveDistance(resultsBox[8], resultsBox[3]) *
+              //   window.innerHeight,
+              // width:
+              //   ResolveDistance(resultsBox[4], resultsBox[0]) *
+              //   window.innerWidth,
+              // bottom: `${100 - resultsBox[2].y * 100}%`,
             }}
             src="./lion.mp4"
           ></video>
@@ -144,7 +161,14 @@ const HandDetect = () => {
         />
         <canvas
           id="output_canvas"
-          style={{ position: "absolute", top: 0, zIndex: 100 }}
+          // style={{ position: "absolute", top: 0, zIndex: 100 }}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100vh",
+            top: 0,
+            zIndex: 100,
+          }}
         ></canvas>
       </div>
     </>
