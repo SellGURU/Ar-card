@@ -91,7 +91,7 @@ const HandDetect = () => {
     });
     camera.start();
   };
-  console.log("8 to 4 in x ", Math.abs(resultsBox[8].x - resultsBox[4].x));
+  // console.log("8 to 4 in x ", Math.abs(resultsBox[8].x - resultsBox[4].x));
   return (
     <>
       <div style={{}}>
