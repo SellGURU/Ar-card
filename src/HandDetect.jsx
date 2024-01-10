@@ -5,7 +5,10 @@ import { useConstructor } from "./help";
 import { useEffect, useRef, useState } from "react";
 
 const HandDetect = () => {
-  const videoRef = useRef(null);
+  const [resultsBox, setResiltsBox] = useState({});
+  const [handSide, setHandSide] = useState({});
+  //Switch Camera:
+  const videoCameraRef = useRef(null);
   const [isFrontCamera, setIsFrontCamera] = useState(true);
   const startCamera = async () => {
     try {
@@ -17,8 +20,8 @@ const HandDetect = () => {
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
+      if (videoCameraRef.current) {
+        videoCameraRef.current.srcObject = stream;
       }
     } catch (error) {
       console.error("Error accessing the camera:", error);
@@ -26,22 +29,51 @@ const HandDetect = () => {
   };
   const toggleCamera = () => {
     setIsFrontCamera((prevState) => !prevState);
-    // Restart the camera with the new facing mode
+
     startCamera();
   };
 
-  // Start the camera when the component mounts
   useEffect(() => {
     startCamera();
-    // Clean up - stop the camera when the component unmounts
+
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject;
+      if (videoCameraRef.current && videoCameraRef.current.srcObject) {
+        const stream = videoCameraRef.current.srcObject;
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
       }
     };
   }, [isFrontCamera]);
+
+  //Turn around axis:
+
+  const videoRef = useRef(null);
+
+  // const rotateVideo = () => {
+  //   const newDegree = rotationDegree + parseInt(customDegree);
+  //   setRotationDegree(newDegree);
+  //   videoRef.current.style.transform = `rotateZ(${newDegree}deg)`;
+  // };
+
+  useEffect(() => {
+    if (resultsBox.length > 0) {
+      const x8 = resultsBox[8].x;
+      const y8 = resultsBox[8].y;
+      const x4 = resultsBox[4].x;
+      const y4 = resultsBox[4].y;
+      const alfa = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
+      const alfaDegree = (alfa * 180) / Math.PI;
+      // console.log((alfa * 180) / Math.PI);
+      videoRef.current.style.transform = `rotateZ(${alfaDegree}deg)`;
+    }
+  }, [resultsBox]);
+  // const handleInputChange = (e) => {
+  //   const value = e.target.value;
+  //   // Validate if the entered value is a number or a minus sign followed by a number
+  //   if (/^-?\d*\.?\d+$/.test(value) || value === "-" || value === "") {
+  //     setCustomDegree(value);
+  //   }
+  // };
 
   let canvasElement;
   let canvasCtx;
@@ -50,8 +82,7 @@ const HandDetect = () => {
       Math.pow(dot1.x - dot2.x, 2) + Math.pow(dot1.y - dot2.y, 2)
     );
   };
-  const [resultsBox, setResiltsBox] = useState({});
-  const [handSide, setHandSide] = useState({});
+
   // const [resetResultsBox, setResetResultsBox] = useState(false);
 
   useEffect(() => {
@@ -140,8 +171,7 @@ const HandDetect = () => {
     });
     camera.start();
   };
-  // console.log("8 to 4 in x ", Math.abs(resultsBox[8].x - resultsBox[4].x));
-  console.log("resultsBox.length", resultsBox.length);
+
   return (
     <>
       <div style={{}}>
@@ -159,8 +189,24 @@ const HandDetect = () => {
         >
           ready
         </button>
+        {/* <div
+          style={{
+            position: "absolute",
+            right: 0,
+            zIndex: 300,
+            marginTop: "100px",
+          }}
+        >
+          <input
+            type="text"
+            value={customDegree}
+            onChange={handleInputChange}
+            placeholder="Enter custom degree"
+          />
+          <button onClick={rotateVideo}>Rotate</button>
+        </div> */}
         <video
-          ref={videoRef}
+          ref={videoCameraRef}
           id="input_video"
           autoPlay
           playsInline
@@ -170,6 +216,7 @@ const HandDetect = () => {
           <video
             autoPlay
             muted
+            ref={videoRef}
             loop
             style={{
               display: resultsBox.length === 0 && "none",
@@ -188,18 +235,21 @@ const HandDetect = () => {
                       window.innerWidth
                     }px`
                   : undefined,
-              // width: `${
-              //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
-              // }px`,
 
-              right:
-                handSide === "Left"
+              right: isFrontCamera
+                ? handSide === "Right"
                   ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                  : undefined,
-              left:
-                handSide === "Right"
+                  : undefined
+                : handSide === "Left"
+                ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                : undefined,
+              left: isFrontCamera
+                ? handSide === "Left"
                   ? `${resultsBox[8].x * window.innerWidth}px`
-                  : undefined,
+                  : undefined
+                : handSide === "Right"
+                ? `${resultsBox[8].x * window.innerWidth}px`
+                : undefined,
               // right:
               //   handSide === "Right"
               //     ? `${100 - resultsBox[8].x * 100}%`
