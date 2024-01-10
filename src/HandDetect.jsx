@@ -2,9 +2,47 @@
 
 import { useConstructor } from "./help";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const HandDetect = () => {
+  const videoRef = useRef(null);
+  const [isFrontCamera, setIsFrontCamera] = useState(true);
+  const startCamera = async () => {
+    try {
+      const constraints = {
+        video: {
+          facingMode: isFrontCamera ? "user" : "environment",
+        },
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (error) {
+      console.error("Error accessing the camera:", error);
+    }
+  };
+  const toggleCamera = () => {
+    setIsFrontCamera((prevState) => !prevState);
+    // Restart the camera with the new facing mode
+    startCamera();
+  };
+
+  // Start the camera when the component mounts
+  useEffect(() => {
+    startCamera();
+    // Clean up - stop the camera when the component unmounts
+    return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        const stream = videoRef.current.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop());
+      }
+    };
+  }, [isFrontCamera]);
+
   let canvasElement;
   let canvasCtx;
   const ResolveDistance = (dot1, dot2) => {
@@ -109,6 +147,12 @@ const HandDetect = () => {
       <div style={{}}>
         <button
           style={{ position: "absolute", right: 0, zIndex: 300 }}
+          onClick={toggleCamera}
+        >
+          Switch Camera
+        </button>
+        <button
+          style={{ position: "absolute", right: 0, zIndex: 300 }}
           onClick={() => {
             configure();
           }}
@@ -116,6 +160,7 @@ const HandDetect = () => {
           ready
         </button>
         <video
+          ref={videoRef}
           id="input_video"
           autoPlay
           playsInline
