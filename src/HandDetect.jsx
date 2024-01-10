@@ -193,11 +193,11 @@ const HandDetect = () => {
               // }px`,
 
               right:
-                handSide === "Right"
+                handSide === "Left"
                   ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
                   : undefined,
               left:
-                handSide === "Left"
+                handSide === "Right"
                   ? `${resultsBox[8].x * window.innerWidth}px`
                   : undefined,
               // right:
