@@ -2,11 +2,16 @@
 /* eslint-disable no-undef */
 
 import { ButtomController, CvProject } from "./Components";
-import { useConstructor } from "./help";
+import { useConstructor , makeid} from "./help";
 import annyang from 'annyang';
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
+import Flow from "./api/Flow";
 
 const HandDetect2 = (props) => {
+  const [isTalking, setIsTalking] = useState(false);    
+  const audioRef = useRef();  
+  const BLokedIdList =useRef([]);
+  const [audioUrl, setAudioUrl] = useState('');
   let canvasElement;
   let canvasCtx;
   const ResolveDistance = (dot1, dot2) => {
@@ -37,6 +42,7 @@ const HandDetect2 = (props) => {
   const stopSpeetchToText = () => {
     annyang.abort()
     setIsRecording(false)
+    sendToApi()
   }  
   const recvResults = (results) => {
     let width = results.image.width;
@@ -115,7 +121,83 @@ const HandDetect2 = (props) => {
     });
     camera.start();
   };
+  const [chat, setChat] = useState([]);   
+  useEffect(() => {
+      if(audioRef.current){
+        const refren = audioRef.current
+        refren.load()
+      }   
+  },[isTalking])
+  const sendToApi =() => {
+      const adminChats = chat.filter(item => item.from === 'admin');
+      const chats= chat
+      if(resolveText.length>0){    
+        const newChat = {
+          type: 'text',
+          like:null,
+          message:resolveText,
+          from: 'user',
+          timestamp:10,
+          message_key: makeid(15),
+          question: resolveText,
+          weekDay: new Date().getDay(),
+          month: new Date().getMonth(),
+          day: new Date().getDate(),
+        };
+        chats.push(newChat)
+        setChat(chats);
+        // setIsLoading(true);   
+        Flow.chat(
+          {
+            text: newChat.message,
+            language:'English',
+            message_key: newChat.message_key,
+            apikey: props.apikey,
+            getcurrentconvesationid:
+              adminChats.length > 0
+                ? adminChats[adminChats.length - 1].currentconverationid
+                : 1,
+          }                  
+        ).then(res => {
+          if(res.answer){
+              if(!BLokedIdList.current.includes(res.message_key)){
+                const responseApi = {
+                  type: 'text',
+                  message: res.answer.answer,
+                  from: 'admin',
+                  video: res.answer.video_file,
+                  audio: res.answer.audio_file,
+                  question: newChat.message,
+                  currentconverationid: res.currentconverationid,
+                  weekDay: new Date().getDay(),
+                  month: new Date().getMonth(),
+                  day: new Date().getDate(),
+                  aisles:
+                    res.answer.suggestion_list !== 'NA'
+                      ? res.answer.suggestion_list
+                      : [],
+                  instanceid: res.instanceid,
+                  // aisles:JSON.parse(res.suggestion_list),
+                };
+                chats.push(responseApi)
+                setAudioUrl(responseApi.audio)
+                setIsTalking(true);
+                setChat(chats)
+                localStorage.setItem('catchChats',JSON.stringify(chats))        
+              }
+          }else{
+            // toast.warning('I did not understand your question, ask your question again',{theme:'colored'})
+            // alert('I did not understand your question, ask your question again')
+          }
+          // console.log(res);
+          // setIsLoading(false);
+        }).catch(() => {
+            // toast.error('Network Connection Error, Please Check Your Connection',{theme:'colored'})
+          // setIsLoading(false)
+        })
 
+      }  
+  }   
   return (
     <>
       <div style={{}}>
@@ -196,15 +278,15 @@ const HandDetect2 = (props) => {
             left:
               handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
             height:
-              ResolveDistance(resultsBox[8], resultsBox[3]) *
+              Math.abs(resultsBox[8].y - resultsBox[3].y) *
               window.innerHeight,
             width:
-              ResolveDistance(resultsBox[4], resultsBox[0]) *
+               Math.abs(resultsBox[8].x - resultsBox[4].x)  *
               window.innerWidth,
             top:`${ (resultsBox[8].y) * window.innerHeight}px`,
             overflow:'hidden'     
           }}>
-            <CvProject apikey={props.apikey} cardData={props.cardData}></CvProject>
+            <CvProject isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
           </div>
         ) : undefined}
         <img
@@ -224,6 +306,21 @@ const HandDetect2 = (props) => {
         <div style={{position:'absolute',bottom: 100}}>{resolveText}</div>
         <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
       </div>
+      <div style={{visibility:'hidden',top:0,left:0,position:'absolute',width:'0px',height:'0px'}}>
+          <div style={{position:'absolute',zIndex:300}}>
+          <audio ref={audioRef} controls onEnded={() => {
+              setAudioUrl('')
+              setIsTalking(false)
+              // if(chat.length == 0){
+              //   setTimeout(() => {
+              //     setShowSuggestion(true)
+              //   }, 20000);
+              // }
+          }} autoPlay={isTalking &&!isRecording}>
+              <source id="audioPlayer" src={audioUrl} type="audio/mpeg"/>
+          </audio>
+          </div>             
+      </div>         
     </>
   );
 };
