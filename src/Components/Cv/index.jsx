@@ -1,14 +1,29 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState} from "react";
+import { useEffect, useRef, useState} from "react";
 import { useConstructor } from "../../help";
 
 const CvProject = (props) => {
     const videoRef = useRef();
     const [videourl,setvideourl] = useState()
     const [isRecording,setIsRecording] = useState(false)        
+    useEffect(() => {
+        if(props.isTalking){
+            setvideourl(props.cardData.chatvideo)
+        }else {
+            setvideourl(props.cardData.silentvideo)
+        }
+        if(videoRef.current && !isRecording){
+            const refren = videoRef.current 
+            // setShowOpacity(true)
+            refren.load()
+        }           
+    },[props.isTalking])        
     useConstructor(() => {
         console.log(props)
         setvideourl(props.cardData.silentvideo)
+    })
+    useEffect(() => {
+
     })
     return (
         <>
