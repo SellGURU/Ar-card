@@ -278,10 +278,10 @@ const HandDetect2 = (props) => {
             left:
               handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
             height:
-              ResolveDistance(resultsBox[8], resultsBox[3]) *
+              Math.abs(resultsBox[8].y - resultsBox[3].y) *
               window.innerHeight,
             width:
-              ResolveDistance(resultsBox[4], resultsBox[0]) *
+               Math.abs(resultsBox[8].x - resultsBox[4].x)  *
               window.innerWidth,
             top:`${ (resultsBox[8].y) * window.innerHeight}px`,
             overflow:'hidden'     
