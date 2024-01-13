@@ -4,7 +4,7 @@ import { useConstructor } from "./help";
 
 import { useEffect, useRef, useState } from "react";
 
-const HandDetect = () => {
+const HandDetect3 = () => {
   const [resultsBox, setResiltsBox] = useState({});
   const [handSide, setHandSide] = useState({});
   //Switch Camera
@@ -48,7 +48,7 @@ const HandDetect = () => {
 
   //Rotation around axesis:
 
-  // const videoRef = useRef(null);
+  const videoRef = useRef(null);
 
   // const rotateVideo = () => {
   //   const newDegree = rotationDegree + parseInt(customDegree);
@@ -83,113 +83,113 @@ const HandDetect = () => {
   //     //ROTATE AROUND X-AXIS:
   //   }
   // }, [resultsBox]);
-  // useEffect(() => {
-  //   if (resultsBox.length > 0) {
-  //     const x8 = resultsBox[8].x;
-  //     const y8 = resultsBox[8].y;
-  //     const z8 = Math.abs(resultsBox[8].z);
-  //     const x4 = resultsBox[4].x;
-  //     const y4 = resultsBox[4].y;
-  //     const z4 = Math.abs(resultsBox[4].z);
-  //     // console.log("x8-x4", x8 - x4);
-  //     // ROTATE AROUND Z-AXIS
-  //     if (isFrontCamera) {
-  //       if (x8 > x4) {
-  //         const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //         const alfaDegreeZ = (alfaZ * 180) / Math.PI;
-  //         videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-  //         videoRef.current.style.transform += ` translateY(${
-  //           handSide === "Right" ? -40 : 100
-  //         }px)`;
-  //         videoRef.current.style.transform += ` translateX(${
-  //           handSide === "Right" ? 0 : -130
-  //         }px)`;
-  //         // const transformedWidth =
-  //         //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-  //         // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-  //         // const transformedHeight =
-  //         //   Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight;
-  //         // videoRef.current.style.transform += ` translateY(${-5}px)`;
-  //       } else if (x8 < x4) {
-  //         // videoRef.current.style.transform = ` translateY(${-50}px)`;
-  //         const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //         const alfaDegreeZ = ((alfaZ * 180) / Math.PI) * -1;
-  //         videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-  //         if (-0.05 < x8 - x4 && x8 - x4 < 0) {
-  //           videoRef.current.style.transform += ` translateY(${
-  //             handSide === "Right" ? 50 : -50
-  //           }px)`;
-  //           videoRef.current.style.transform += ` translateX(${
-  //             handSide === "Right" ? 100 : -50
-  //           }px)`;
-  //         } else {
-  //           videoRef.current.style.transform += ` translateY(${
-  //             handSide === "Right" ? 100 : -50
-  //           }px)`;
-  //           videoRef.current.style.transform += ` translateX(${
-  //             handSide === "Right" ? 100 : -50
-  //           }px)`;
-  //         }
-  //       }
-  //     } else {
-  //       if (x8 > x4) {
-  //         const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //         const alfaDegreeZ = (alfaZ * 180) / Math.PI;
-  //         videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-  //         videoRef.current.style.transform += ` translateY(${
-  //           handSide === "Right" ? 100 : -40
-  //         }px)`;
-  //         videoRef.current.style.transform += ` translateX(${
-  //           handSide === "Right" ? -130 : 100
-  //         }px)`;
-  //         // const transformedWidth =
-  //         //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-  //         // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-  //         // const transformedHeight =
-  //         //   Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight;
-  //         // videoRef.current.style.transform += ` translateY(${-5}px)`;
-  //       } else if (x8 < x4) {
-  //         // videoRef.current.style.transform = ` translateY(${-50}px)`;
-  //         const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //         const alfaDegreeZ = ((alfaZ * 180) / Math.PI) * -1;
-  //         videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-  //         if (-0.05 < x8 - x4 && x8 - x4 < 0) {
-  //           videoRef.current.style.transform += ` translateY(${
-  //             handSide === "Right" ? -50 : 50
-  //           }px)`;
-  //           videoRef.current.style.transform += ` translateX(${
-  //             handSide === "Right" ? -50 : 100
-  //           }px)`;
-  //         } else {
-  //           videoRef.current.style.transform += ` translateY(${
-  //             handSide === "Right" ? -50 : 100
-  //           }px)`;
-  //           videoRef.current.style.transform += ` translateX(${
-  //             handSide === "Right" ? -50 : 100
-  //           }px)`;
-  //         }
-  //       }
-  //     }
+  useEffect(() => {
+    if (resultsBox.length > 0) {
+      const x8 = resultsBox[8].x;
+      const y8 = resultsBox[8].y;
+      const z8 = Math.abs(resultsBox[8].z);
+      const x4 = resultsBox[4].x;
+      const y4 = resultsBox[4].y;
+      const z4 = Math.abs(resultsBox[4].z);
+      // console.log("x8-x4", x8 - x4);
+      // ROTATE AROUND Z-AXIS
+      if (isFrontCamera) {
+        if (x8 > x4) {
+          const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
+          const alfaDegreeZ = (alfaZ * 180) / Math.PI;
+          videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
+          videoRef.current.style.transform += ` translateY(${
+            handSide === "Right" ? -40 : 100
+          }px)`;
+          videoRef.current.style.transform += ` translateX(${
+            handSide === "Right" ? 0 : -130
+          }px)`;
+          // const transformedWidth =
+          //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
+          // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
+          // const transformedHeight =
+          //   Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight;
+          // videoRef.current.style.transform += ` translateY(${-5}px)`;
+        } else if (x8 < x4) {
+          // videoRef.current.style.transform = ` translateY(${-50}px)`;
+          const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
+          const alfaDegreeZ = ((alfaZ * 180) / Math.PI) * -1;
+          videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
+          if (-0.05 < x8 - x4 && x8 - x4 < 0) {
+            videoRef.current.style.transform += ` translateY(${
+              handSide === "Right" ? 50 : -50
+            }px)`;
+            videoRef.current.style.transform += ` translateX(${
+              handSide === "Right" ? 100 : -50
+            }px)`;
+          } else {
+            videoRef.current.style.transform += ` translateY(${
+              handSide === "Right" ? 100 : -50
+            }px)`;
+            videoRef.current.style.transform += ` translateX(${
+              handSide === "Right" ? 100 : -50
+            }px)`;
+          }
+        }
+      } else {
+        if (x8 > x4) {
+          const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
+          const alfaDegreeZ = (alfaZ * 180) / Math.PI;
+          videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
+          videoRef.current.style.transform += ` translateY(${
+            handSide === "Right" ? 100 : -40
+          }px)`;
+          videoRef.current.style.transform += ` translateX(${
+            handSide === "Right" ? -130 : 100
+          }px)`;
+          // const transformedWidth =
+          //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
+          // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
+          // const transformedHeight =
+          //   Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight;
+          // videoRef.current.style.transform += ` translateY(${-5}px)`;
+        } else if (x8 < x4) {
+          // videoRef.current.style.transform = ` translateY(${-50}px)`;
+          const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
+          const alfaDegreeZ = ((alfaZ * 180) / Math.PI) * -1;
+          videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
+          if (-0.05 < x8 - x4 && x8 - x4 < 0) {
+            videoRef.current.style.transform += ` translateY(${
+              handSide === "Right" ? -50 : 50
+            }px)`;
+            videoRef.current.style.transform += ` translateX(${
+              handSide === "Right" ? -50 : 100
+            }px)`;
+          } else {
+            videoRef.current.style.transform += ` translateY(${
+              handSide === "Right" ? -50 : 100
+            }px)`;
+            videoRef.current.style.transform += ` translateX(${
+              handSide === "Right" ? -50 : 100
+            }px)`;
+          }
+        }
+      }
 
-  //     //Transformed in x-direction
-  //     // const transformedWidth =
-  //     //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-  //     // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-  //     // ROTATE AROUND X-AXIS
-  //     // const alfaX = Math.atan(Math.abs(z8 - z4) / Math.abs(y8 - y4));
-  //     // const alfaDegreeX = ((alfaX * 180) / Math.PI) * 10;
-  //     // const currentTransform = videoRef.current.style.transform || "";
-  //     // videoRef.current.style.transform = `${currentTransform} rotateX(${alfaDegreeX}deg)`;
+      //Transformed in x-direction
+      // const transformedWidth =
+      //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
+      // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
+      // ROTATE AROUND X-AXIS
+      // const alfaX = Math.atan(Math.abs(z8 - z4) / Math.abs(y8 - y4));
+      // const alfaDegreeX = ((alfaX * 180) / Math.PI) * 10;
+      // const currentTransform = videoRef.current.style.transform || "";
+      // videoRef.current.style.transform = `${currentTransform} rotateX(${alfaDegreeX}deg)`;
 
-  //     // ROTATE AROUND Y-AXIS
-  //     // const alfaY = Math.atan(Math.abs(z8 - z4) / Math.abs(x8 - x4));
-  //     // const alfaDegreeY = (alfaY * 180) / Math.PI;
-  //     // videoRef.current.style.transform += ` rotateY(${alfaDegreeY}deg)`;
+      // ROTATE AROUND Y-AXIS
+      // const alfaY = Math.atan(Math.abs(z8 - z4) / Math.abs(x8 - x4));
+      // const alfaDegreeY = (alfaY * 180) / Math.PI;
+      // videoRef.current.style.transform += ` rotateY(${alfaDegreeY}deg)`;
 
-  //     // SET TRANSFORM ORIGIN TO CENTER
-  //     videoRef.current.style.transformOrigin = "center center";
-  //   }
-  // }, [resultsBox, handSide, isFrontCamera]);
+      // SET TRANSFORM ORIGIN TO CENTER
+      videoRef.current.style.transformOrigin = "center center";
+    }
+  }, [resultsBox, handSide, isFrontCamera]);
 
   // if (resultsBox.length > 0) {
   //   console.log("resultsBox[8].x", resultsBox[8].x);
@@ -356,7 +356,7 @@ const HandDetect = () => {
           <video
             autoPlay
             muted
-            // ref={videoRef}
+            ref={videoRef}
             loop
             style={{
               transition: "transform 0.2s ease",
@@ -369,14 +369,14 @@ const HandDetect = () => {
               height: `${
                 Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight
               }px`,
-              // width: undefined,
-              width:
-                Math.abs(resultsBox[8].x - resultsBox[4].x) > 0.2
-                  ? `${
-                      Math.abs(resultsBox[8].x - resultsBox[4].x) *
-                      window.innerWidth
-                    }px`
-                  : undefined,
+              width: undefined,
+              // width:
+              //   Math.abs(resultsBox[8].x - resultsBox[4].x) > 0.2
+              //     ? `${
+              //         Math.abs(resultsBox[8].x - resultsBox[4].x) *
+              //         window.innerWidth
+              //       }px`
+              //     : undefined,
               // width: `${
               //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
               // }px`,
@@ -435,4 +435,4 @@ const HandDetect = () => {
     </>
   );
 };
-export default HandDetect;
+export default HandDetect3;
