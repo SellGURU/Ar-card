@@ -7,24 +7,41 @@ const CvProject = (props) => {
     const [videourl,setvideourl] = useState()
     const [isRecording,setIsRecording] = useState(false)        
     useEffect(() => {
-        if(props.isTalking){
+        console.log(props.isTalking)
+        if(props.isTalking == true){
             setvideourl(props.cardData.chatvideo)
+            setTimeout(() => {
+                if(videoRef.current){
+                    const refren = videoRef.current 
+                    // setShowOpacity(true)
+                    refren.load()
+                }                
+                
+            }, 200);              
         }else {
             setvideourl(props.cardData.silentvideo)
+            setTimeout(() => {
+                if(videoRef.current){
+                    const refren = videoRef.current 
+                    // setShowOpacity(true)
+                    refren.load()
+                }                
+                
+            }, 200);
         }
-        if(videoRef.current && !isRecording){
-            const refren = videoRef.current 
-            // setShowOpacity(true)
-            refren.load()
-        }           
-    },[props.isTalking])        
+       
+    },[isRecording, props.cardData.chatvideo, props.cardData.silentvideo, props.isTalking])        
     useConstructor(() => {
         console.log(props)
         setvideourl(props.cardData.silentvideo)
     })
-    useEffect(() => {
-
-    })
+    // useEffect(() => {
+    //     if(videoRef.current){
+    //         const refren = videoRef.current 
+    //         // setShowOpacity(true)
+    //         refren.load()
+    //     }            
+    // })
     return (
         <>
             <div style={{overflow:'hidden'}}>
@@ -32,6 +49,7 @@ const CvProject = (props) => {
                     <video id="dragAbleAi" playsInline ref={videoRef} height={'30%'} style={{borderRadius:'100%'}} className="pk_video" preload="auto" width={'30%'} autoPlay={!isRecording} loop muted >
                         <source id="videoPlayer" key={videourl}  src={videourl} type="video/mp4"></source>
                     </video> 
+
                     {/* <div style={{display:'flex',width:'100%',position:'absolute',top:'150px',zIndex:12,justifyContent:'center'}}>
                         <div style={{backgroundColor:'#EBEBEB',maxWidth:'290px',width:'100%',minHeight:'215px',paddingBottom:'16px',maxHeight:'315px',position:'relative'}}>
                             <div style={{backgroundColor:'#FBAD37',zIndex:2,width:'102px',height:'20px',position:'absolute',left:'0px',top:40}}></div>
@@ -74,7 +92,16 @@ const CvProject = (props) => {
                     </div>                     */}
                     {/* <video autoPlay style={{borderRadius:'100%',width:'138px',height:'100%',border:'2px solid white'}} src="./images/01.mp4"></video> */}
                     {/* <img src="./images/user.png" style={{width:'138px',height:'138px',borderRadius:'100%'}} /> */}
-                </div>                
+                </div>  
+                <div style={{position:'absolute',width:'100%',backgroundColor:'',bottom:0}}>
+                    <div>
+                        {props?.chats?.length > 0 ?
+                            <div style={{opacity:'0.7',padding:'16px 16px'}}>
+                                {props.chats[props.chats.length-1].message}
+                            </div>
+                        :undefined}
+                    </div>
+                </div>                              
             </div>
         </>
     )

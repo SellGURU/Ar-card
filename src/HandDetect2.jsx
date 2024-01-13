@@ -41,8 +41,8 @@ const HandDetect2 = (props) => {
   } 
   const stopSpeetchToText = () => {
     annyang.abort()
-    setIsRecording(false)
     sendToApi()
+    setIsRecording(false)
   }  
   const recvResults = (results) => {
     let width = results.image.width;
@@ -85,6 +85,7 @@ const HandDetect2 = (props) => {
     document.onload = () => {
       configure();
     };
+    localStorage.setItem('accessToken',"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s")
     console.log(props)
   });
   // console.log("handSide", handSide);
@@ -131,6 +132,7 @@ const HandDetect2 = (props) => {
   const sendToApi =() => {
       const adminChats = chat.filter(item => item.from === 'admin');
       const chats= chat
+      console.log(resolveText.length>0)
       if(resolveText.length>0){    
         const newChat = {
           type: 'text',
@@ -147,6 +149,7 @@ const HandDetect2 = (props) => {
         chats.push(newChat)
         setChat(chats);
         // setIsLoading(true);   
+        console.log('try send')
         Flow.chat(
           {
             text: newChat.message,
@@ -191,7 +194,8 @@ const HandDetect2 = (props) => {
           }
           // console.log(res);
           // setIsLoading(false);
-        }).catch(() => {
+        }).catch((err) => {
+          console.log(err)
             // toast.error('Network Connection Error, Please Check Your Connection',{theme:'colored'})
           // setIsLoading(false)
         })
@@ -286,7 +290,7 @@ const HandDetect2 = (props) => {
             top:`${ (resultsBox[8].y) * window.innerHeight}px`,
             overflow:'hidden'     
           }}>
-            <CvProject isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
+            <CvProject chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
           </div>
         ) : undefined}
         <img
