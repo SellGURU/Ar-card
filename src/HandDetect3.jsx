@@ -156,9 +156,7 @@ const HandDetect3 = (props) => {
   let canvasElement;
   let canvasCtx;
   const ResolveDistance = (dot1, dot2) => {
-    return Math.sqrt(
-      Math.pow(dot1.x - dot2.x, 2) + Math.pow(dot1.y - dot2.y, 2)
-    );
+    return Math.sqrt(Math.pow(dot1.x - dot2.x, 2) + Math.pow(dot1.y - dot2.y, 2));
   };
   //////
   useEffect(() => {
@@ -244,10 +242,7 @@ const HandDetect3 = (props) => {
     document.onload = () => {
       configure();
     };
-    localStorage.setItem(
-      "accessToken",
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
-    );
+    localStorage.setItem("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s");
   });
   /////
   // console.log("handSide", handSide);
@@ -326,10 +321,7 @@ const HandDetect3 = (props) => {
         language: "English",
         message_key: newChat.message_key,
         apikey: props.apikey,
-        getcurrentconvesationid:
-          adminChats.length > 0
-            ? adminChats[adminChats.length - 1].currentconverationid
-            : 1,
+        getcurrentconvesationid: adminChats.length > 0 ? adminChats[adminChats.length - 1].currentconverationid : 1,
       })
         .then((res) => {
           if (res.answer) {
@@ -345,10 +337,7 @@ const HandDetect3 = (props) => {
                 weekDay: new Date().getDay(),
                 month: new Date().getMonth(),
                 day: new Date().getDate(),
-                aisles:
-                  res.answer.suggestion_list !== "NA"
-                    ? res.answer.suggestion_list
-                    : [],
+                aisles: res.answer.suggestion_list !== "NA" ? res.answer.suggestion_list : [],
                 instanceid: res.instanceid,
                 // aisles:JSON.parse(res.suggestion_list),
               };
@@ -375,10 +364,7 @@ const HandDetect3 = (props) => {
   return (
     <>
       <div style={{}}>
-        <button
-          style={{ position: "absolute", right: 0, zIndex: 300 }}
-          onClick={toggleCamera}
-        >
+        <button style={{ position: "absolute", right: 0, zIndex: 300 }} onClick={toggleCamera}>
           Switch Camera
         </button>
         <button
@@ -405,13 +391,7 @@ const HandDetect3 = (props) => {
           />
           <button onClick={rotateVideo}>Rotate</button>
         </div> */}
-        <video
-          ref={videoCameraRef}
-          id="input_video"
-          autoPlay
-          playsInline
-          style={{ position: "absolute", display: "none" }}
-        ></video>
+        <video ref={videoCameraRef} id="input_video" autoPlay playsInline style={{ position: "absolute", display: "none" }}></video>
         {resultsBox.length > 0 ? (
           <>
             {/* <video
@@ -476,6 +456,7 @@ const HandDetect3 = (props) => {
             <div
               ref={videoRef}
               style={{
+                borderRadius: 14,
                 // backgroundColor:'white',
                 transition: "transform 0.2s ease",
                 display: resultsBox.length === 0 && "none",
@@ -483,36 +464,17 @@ const HandDetect3 = (props) => {
                 position: "absolute",
                 // opacity:'0.3',
                 zIndex: 200,
-                right: isFrontCamera
-                  ? handSide === "Right"
-                    ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                    : undefined
-                  : handSide === "Left"
-                  ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                  : undefined,
-                left: isFrontCamera
-                  ? handSide === "Left"
-                    ? `${resultsBox[8].x * window.innerWidth}px`
-                    : undefined
-                  : handSide === "Right"
-                  ? `${resultsBox[8].x * window.innerWidth}px`
-                  : undefined,
-                height:
-                  Math.abs(resultsBox[8].y - resultsBox[3].y) *
-                  window.innerHeight,
-                width: 250,
+                right: isFrontCamera ? (handSide === "Right" ? `${(1 - resultsBox[8].x) * window.innerWidth}px` : undefined) : handSide === "Left" ? `${(1 - resultsBox[8].x) * window.innerWidth}px` : undefined,
+                left: isFrontCamera ? (handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined) : handSide === "Right" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
+                height: Math.abs(resultsBox[8].y - resultsBox[3].y) * window.innerHeight,
+                width: 280,
                 // Math.abs(resultsBox[8].x - resultsBox[4].x) *
                 // window.innerWidth,
                 top: `${resultsBox[8].y * window.innerHeight}px`,
                 overflow: "hidden",
               }}
             >
-              <CvProject
-                chats={chat}
-                isTalking={isTalking}
-                apikey={props.apikey}
-                cardData={props.cardData}
-              ></CvProject>
+              <CvProject chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
             </div>
           </>
         ) : undefined}
@@ -547,11 +509,7 @@ const HandDetect3 = (props) => {
         }}
       >
         <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
-        <ButtomController
-          isRecording={isRecording}
-          onstart={startSpeetchToText}
-          onstop={stopSpeetchToText}
-        ></ButtomController>
+        <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
       </div>
       <div
         style={{
