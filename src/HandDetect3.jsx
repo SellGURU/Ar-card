@@ -1,10 +1,19 @@
 /* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 
-import { useConstructor } from "./help";
+import { ButtomController, CvProject } from "./Components";
 
+import { useConstructor, makeid } from "./help";
+import annyang from "annyang";
+
+import Flow from "./api/Flow";
 import { useEffect, useRef, useState } from "react";
 
-const HandDetect3 = () => {
+const HandDetect3 = (props) => {
+  const [isTalking, setIsTalking] = useState(false);
+  const audioRef = useRef();
+  const BLokedIdList = useRef([]);
+  const [audioUrl, setAudioUrl] = useState("");
   const [resultsBox, setResiltsBox] = useState({});
   const [handSide, setHandSide] = useState({});
   //Switch Camera
@@ -88,8 +97,8 @@ const HandDetect3 = () => {
       const x8 = resultsBox[8].x;
       const y8 = resultsBox[8].y;
       const z8 = Math.abs(resultsBox[8].z);
-      const x4 = resultsBox[4].x;
-      const y4 = resultsBox[4].y;
+      const x4 = resultsBox[3].x;
+      const y4 = resultsBox[3].y;
       const z4 = Math.abs(resultsBox[4].z);
       // console.log("x8-x4", x8 - x4);
       // ROTATE AROUND Z-AXIS
@@ -98,93 +107,30 @@ const HandDetect3 = () => {
           const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
           const alfaDegreeZ = (alfaZ * 180) / Math.PI;
           videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-          videoRef.current.style.transform += ` translateY(${
-            handSide === "Right" ? -40 : 100
-          }px)`;
-          videoRef.current.style.transform += ` translateX(${
-            handSide === "Right" ? 0 : -130
-          }px)`;
-          // const transformedWidth =
-          //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-          // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-          // const transformedHeight =
-          //   Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight;
-          // videoRef.current.style.transform += ` translateY(${-5}px)`;
+          // videoRef.current.style.transform += ` translateY(${
+          //   handSide === "Right" ? -40 : 100
+          // }px)`;
+          // videoRef.current.style.transform += ` translateX(${
+          //   handSide === "Right" ? 0 : -130
+          // }px)`;
         } else if (x8 < x4) {
           // videoRef.current.style.transform = ` translateY(${-50}px)`;
           const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
           const alfaDegreeZ = ((alfaZ * 180) / Math.PI) * -1;
           videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-          if (-0.05 < x8 - x4 && x8 - x4 < 0) {
-            videoRef.current.style.transform += ` translateY(${
-              handSide === "Right" ? 50 : -50
-            }px)`;
-            videoRef.current.style.transform += ` translateX(${
-              handSide === "Right" ? 100 : -50
-            }px)`;
-          } else {
-            videoRef.current.style.transform += ` translateY(${
-              handSide === "Right" ? 100 : -50
-            }px)`;
-            videoRef.current.style.transform += ` translateX(${
-              handSide === "Right" ? 100 : -50
-            }px)`;
-          }
         }
       } else {
         if (x8 > x4) {
           const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
           const alfaDegreeZ = (alfaZ * 180) / Math.PI;
           videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-          videoRef.current.style.transform += ` translateY(${
-            handSide === "Right" ? 100 : -40
-          }px)`;
-          videoRef.current.style.transform += ` translateX(${
-            handSide === "Right" ? -130 : 100
-          }px)`;
-          // const transformedWidth =
-          //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-          // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-          // const transformedHeight =
-          //   Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight;
-          // videoRef.current.style.transform += ` translateY(${-5}px)`;
         } else if (x8 < x4) {
           // videoRef.current.style.transform = ` translateY(${-50}px)`;
           const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
           const alfaDegreeZ = ((alfaZ * 180) / Math.PI) * -1;
           videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-          if (-0.05 < x8 - x4 && x8 - x4 < 0) {
-            videoRef.current.style.transform += ` translateY(${
-              handSide === "Right" ? -50 : 50
-            }px)`;
-            videoRef.current.style.transform += ` translateX(${
-              handSide === "Right" ? -50 : 100
-            }px)`;
-          } else {
-            videoRef.current.style.transform += ` translateY(${
-              handSide === "Right" ? -50 : 100
-            }px)`;
-            videoRef.current.style.transform += ` translateX(${
-              handSide === "Right" ? -50 : 100
-            }px)`;
-          }
         }
       }
-
-      //Transformed in x-direction
-      // const transformedWidth =
-      //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-      // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-      // ROTATE AROUND X-AXIS
-      // const alfaX = Math.atan(Math.abs(z8 - z4) / Math.abs(y8 - y4));
-      // const alfaDegreeX = ((alfaX * 180) / Math.PI) * 10;
-      // const currentTransform = videoRef.current.style.transform || "";
-      // videoRef.current.style.transform = `${currentTransform} rotateX(${alfaDegreeX}deg)`;
-
-      // ROTATE AROUND Y-AXIS
-      // const alfaY = Math.atan(Math.abs(z8 - z4) / Math.abs(x8 - x4));
-      // const alfaDegreeY = (alfaY * 180) / Math.PI;
-      // videoRef.current.style.transform += ` rotateY(${alfaDegreeY}deg)`;
 
       // SET TRANSFORM ORIGIN TO CENTER
       videoRef.current.style.transformOrigin = "center center";
@@ -214,7 +160,31 @@ const HandDetect3 = () => {
       Math.pow(dot1.x - dot2.x, 2) + Math.pow(dot1.y - dot2.y, 2)
     );
   };
+  //////
+  useEffect(() => {
+    if (annyang) {
+      annyang.addCallback("result", function (phrases) {
+        // console.log(phrases)
+        setResolveText(phrases[0]);
+        // sendToApi()
+      });
+    }
+  });
+  const [resolveText, setResolveText] = useState("");
+  const [isRecording, setIsRecording] = useState(false);
 
+  const startSpeetchToText = () => {
+    setResolveText("");
+    annyang.start({ autoRestart: true, continuous: false });
+    setIsRecording(true);
+    // console.log(annyang.isListening())
+  };
+  const stopSpeetchToText = () => {
+    annyang.abort();
+    sendToApi();
+    setIsRecording(false);
+  };
+  /////
   // const [resetResultsBox, setResetResultsBox] = useState(false);
 
   useEffect(() => {
@@ -264,11 +234,22 @@ const HandDetect3 = () => {
     }
     canvasCtx.restore();
   };
+  // useConstructor(() => {
+  //   document.onload = () => {
+  //     configure();
+  //   };
+  // });
+  ////
   useConstructor(() => {
     document.onload = () => {
       configure();
     };
+    localStorage.setItem(
+      "accessToken",
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
+    );
   });
+  /////
   // console.log("handSide", handSide);
   const configure = () => {
     // beam = document.getElementById("beam") as HTMLElement;
@@ -312,6 +293,85 @@ const HandDetect3 = () => {
   //   const alfa = Math.atan((Math.abs(x8 - x4)) /( Math.abs(y8 - y4)));
   //   // console.log((alfa * 180) / Math.PI);
   // }
+  const [chat, setChat] = useState([]);
+  useEffect(() => {
+    if (audioRef.current) {
+      const refren = audioRef.current;
+      refren.load();
+    }
+  }, [isTalking]);
+  const sendToApi = () => {
+    const adminChats = chat.filter((item) => item.from === "admin");
+    const chats = chat;
+    console.log(resolveText.length > 0);
+    if (resolveText.length > 0) {
+      const newChat = {
+        type: "text",
+        like: null,
+        message: resolveText,
+        from: "user",
+        timestamp: 10,
+        message_key: makeid(15),
+        question: resolveText,
+        weekDay: new Date().getDay(),
+        month: new Date().getMonth(),
+        day: new Date().getDate(),
+      };
+      chats.push(newChat);
+      setChat(chats);
+      // setIsLoading(true);
+      console.log("try send");
+      Flow.chat({
+        text: newChat.message,
+        language: "English",
+        message_key: newChat.message_key,
+        apikey: props.apikey,
+        getcurrentconvesationid:
+          adminChats.length > 0
+            ? adminChats[adminChats.length - 1].currentconverationid
+            : 1,
+      })
+        .then((res) => {
+          if (res.answer) {
+            if (!BLokedIdList.current.includes(res.message_key)) {
+              const responseApi = {
+                type: "text",
+                message: res.answer.answer,
+                from: "admin",
+                video: res.answer.video_file,
+                audio: res.answer.audio_file,
+                question: newChat.message,
+                currentconverationid: res.currentconverationid,
+                weekDay: new Date().getDay(),
+                month: new Date().getMonth(),
+                day: new Date().getDate(),
+                aisles:
+                  res.answer.suggestion_list !== "NA"
+                    ? res.answer.suggestion_list
+                    : [],
+                instanceid: res.instanceid,
+                // aisles:JSON.parse(res.suggestion_list),
+              };
+              chats.push(responseApi);
+              setAudioUrl(responseApi.audio);
+              setIsTalking(true);
+              setChat(chats);
+              localStorage.setItem("catchChats", JSON.stringify(chats));
+            }
+          } else {
+            // toast.warning('I did not understand your question, ask your question again',{theme:'colored'})
+            // alert('I did not understand your question, ask your question again')
+          }
+          // console.log(res);
+          // setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          // toast.error('Network Connection Error, Please Check Your Connection',{theme:'colored'})
+          // setIsLoading(false)
+        });
+    }
+  };
   return (
     <>
       <div style={{}}>
@@ -353,64 +413,108 @@ const HandDetect3 = () => {
           style={{ position: "absolute", display: "none" }}
         ></video>
         {resultsBox.length > 0 ? (
-          <video
-            autoPlay
-            muted
-            ref={videoRef}
-            loop
-            style={{
-              transition: "transform 0.2s ease",
-              display: resultsBox.length === 0 && "none",
-              position: "absolute",
-              objectFit: "fill",
-              zIndex: 200,
-              // right: `${(1 - resultsBox[8].x) * window.innerWidth}px`,
-              top: `${resultsBox[8].y * window.innerHeight}px`,
-              height: `${
-                Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight
-              }px`,
-              width: undefined,
-              // width:
-              //   Math.abs(resultsBox[8].x - resultsBox[4].x) > 0.2
-              //     ? `${
-              //         Math.abs(resultsBox[8].x - resultsBox[4].x) *
-              //         window.innerWidth
-              //       }px`
-              //     : undefined,
-              // width: `${
-              //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
-              // }px`,
+          <>
+            {/* <video
+              autoPlay
+              muted
+              // ref={videoRef}
+              loop
+              style={{
+                transition: "transform 0.2s ease",
+                display: resultsBox.length === 0 && "none",
+                position: "absolute",
+                objectFit: "fill",
+                zIndex: 200,
+                // right: `${(1 - resultsBox[8].x) * window.innerWidth}px`,
+                top: `${resultsBox[8].y * window.innerHeight}px`,
+                height: `${
+                  Math.abs(resultsBox[8].y - resultsBox[4].y) *
+                  window.innerHeight
+                }px`,
+                // width: undefined,
+                width:
+                  Math.abs(resultsBox[8].x - resultsBox[4].x) > 0.2
+                    ? `${
+                        Math.abs(resultsBox[8].x - resultsBox[4].x) *
+                        window.innerWidth
+                      }px`
+                    : undefined,
+                // width: `${
+                //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
+                // }px`,
 
-              right: isFrontCamera
-                ? handSide === "Right"
+                right: isFrontCamera
+                  ? handSide === "Right"
+                    ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                    : undefined
+                  : handSide === "Left"
                   ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                  : undefined
-                : handSide === "Left"
-                ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                : undefined,
-              left: isFrontCamera
-                ? handSide === "Left"
+                  : undefined,
+                left: isFrontCamera
+                  ? handSide === "Left"
+                    ? `${resultsBox[8].x * window.innerWidth}px`
+                    : undefined
+                  : handSide === "Right"
                   ? `${resultsBox[8].x * window.innerWidth}px`
-                  : undefined
-                : handSide === "Right"
-                ? `${resultsBox[8].x * window.innerWidth}px`
-                : undefined,
-              // right:
-              //   handSide === "Right"
-              //     ? `${100 - resultsBox[8].x * 100}%`
-              //     : undefined,
-              // left:
-              //   handSide === "Left" ? `${resultsBox[8].x * 100}%` : undefined,
-              // height:
-              //   ResolveDistance(resultsBox[8], resultsBox[3]) *
-              //   window.innerHeight,
-              // width:
-              //   ResolveDistance(resultsBox[4], resultsBox[0]) *
-              //   window.innerWidth,
-              // bottom: `${100 - resultsBox[2].y * 100}%`,
-            }}
-            src="./lion.mp4"
-          ></video>
+                  : undefined,
+                // right:
+                //   handSide === "Right"
+                //     ? `${100 - resultsBox[8].x * 100}%`
+                //     : undefined,
+                // left:
+                //   handSide === "Left" ? `${resultsBox[8].x * 100}%` : undefined,
+                // height:
+                //   ResolveDistance(resultsBox[8], resultsBox[3]) *
+                //   window.innerHeight,
+                // width:
+                //   ResolveDistance(resultsBox[4], resultsBox[0]) *
+                //   window.innerWidth,
+                // bottom: `${100 - resultsBox[2].y * 100}%`,
+              }}
+              src="./lion.mp4"
+            ></video> */}
+            <div
+              ref={videoRef}
+              style={{
+                // backgroundColor:'white',
+                transition: "transform 0.2s ease",
+                display: resultsBox.length === 0 && "none",
+                backgroundColor: "rgba(255, 255, 255, .1)",
+                position: "absolute",
+                // opacity:'0.3',
+                zIndex: 200,
+                right: isFrontCamera
+                  ? handSide === "Right"
+                    ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                    : undefined
+                  : handSide === "Left"
+                  ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                  : undefined,
+                left: isFrontCamera
+                  ? handSide === "Left"
+                    ? `${resultsBox[8].x * window.innerWidth}px`
+                    : undefined
+                  : handSide === "Right"
+                  ? `${resultsBox[8].x * window.innerWidth}px`
+                  : undefined,
+                height:
+                  Math.abs(resultsBox[8].y - resultsBox[3].y) *
+                  window.innerHeight,
+                width: 250,
+                // Math.abs(resultsBox[8].x - resultsBox[4].x) *
+                // window.innerWidth,
+                top: `${resultsBox[8].y * window.innerHeight}px`,
+                overflow: "hidden",
+              }}
+            >
+              <CvProject
+                chats={chat}
+                isTalking={isTalking}
+                apikey={props.apikey}
+                cardData={props.cardData}
+              ></CvProject>
+            </div>
+          </>
         ) : undefined}
         <img
           id="beam"
@@ -422,7 +526,6 @@ const HandDetect3 = () => {
         />
         <canvas
           id="output_canvas"
-          // style={{ position: "absolute", top: 0, zIndex: 100 }}
           style={{
             position: "absolute",
             width: "100%",
@@ -431,6 +534,53 @@ const HandDetect3 = () => {
             zIndex: 100,
           }}
         ></canvas>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 20,
+          zIndex: 600,
+          left: 0,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
+        <ButtomController
+          isRecording={isRecording}
+          onstart={startSpeetchToText}
+          onstop={stopSpeetchToText}
+        ></ButtomController>
+      </div>
+      <div
+        style={{
+          visibility: "hidden",
+          top: 0,
+          left: 0,
+          position: "absolute",
+          width: "0px",
+          height: "0px",
+        }}
+      >
+        <div style={{ position: "absolute", zIndex: 300 }}>
+          <audio
+            ref={audioRef}
+            controls
+            onEnded={() => {
+              setAudioUrl("");
+              setIsTalking(false);
+              // if(chat.length == 0){
+              //   setTimeout(() => {
+              //     setShowSuggestion(true)
+              //   }, 20000);
+              // }
+            }}
+            autoPlay={isTalking && !isRecording}
+          >
+            <source id="audioPlayer" src={audioUrl} type="audio/mpeg" />
+          </audio>
+        </div>
       </div>
     </>
   );

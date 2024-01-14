@@ -49,11 +49,21 @@ function App() {
       });
       resolveRouter.push({
         path: "detect1",
-        element: <HandDetect></HandDetect>,
+        element: (
+          <HandDetect
+            apikey={resumes[0].apikey}
+            cardData={resumes[0].cardData}
+          ></HandDetect>
+        ),
       });
       resolveRouter.push({
         path: "detect3",
-        element: <HandDetect3></HandDetect3>,
+        element: (
+          <HandDetect3
+            apikey={resumes[0].apikey}
+            cardData={resumes[0].cardData}
+          ></HandDetect3>
+        ),
       });
       setRouter(createHashRouter(resolveRouter));
       setIsLaoding(false);
