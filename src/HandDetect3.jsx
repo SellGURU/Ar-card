@@ -498,9 +498,10 @@ const HandDetect3 = (props) => {
         ></canvas>
       </div>
       <div
+        // className=" absolute bottom-[60px] w-[100%] flex justify-center left-0 right-0 mx-auto"
         style={{
           position: "absolute",
-          bottom: 20,
+          bottom: 50,
           zIndex: 600,
           left: 0,
           width: "100%",
@@ -509,7 +510,9 @@ const HandDetect3 = (props) => {
         }}
       >
         <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
-        <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
+        <div className=" mx-auto">
+          <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
+        </div>
       </div>
       <div
         style={{

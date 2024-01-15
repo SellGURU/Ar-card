@@ -10,21 +10,47 @@ const CvProject = (props) => {
     console.log(props);
     setvideourl(props.cardData.silentvideo);
   });
+  console.log(props.cartHeight);
+  let fontSize; // Default font size
+  let marginValue;
+  if (props.cartWidth < 200) {
+    fontSize = "14px";
+  } else if (props.cartWidth < 300) {
+    fontSize = "16px";
+  } else if (props.cartWidth < 400) {
+    fontSize = "18px";
+  } else {
+    fontSize = "20px";
+  }
+  if (props.cartHeight < 250) {
+    marginValue = "10";
+  } else if (props.cartHeight < 300) {
+    marginValue = "20px";
+  } else if (props.cartHeight < 350) {
+    marginValue = "40px";
+  } else if (props.cartHeight < 400) {
+    marginValue = "60px";
+  } else if (props.cartHeight < 450) {
+    marginValue = "80px";
+  } else {
+    marginValue = "100px";
+  }
+  console.log(marginValue);
   return (
     <>
       <div style={{ overflow: "hidden" }}>
         {/* <div style={{ display: "flex", zIndex: 20, top: 20, justifyContent: "center", width: "100%", position: "absolute" }}> */}
-        <div className=" flex flex-col bg-[#020102]/70  rounded-[14px] ">
-          <video id="dragAbleAi" playsInline ref={videoRef} style={{ borderRadius: "100%" }} className="pk_video w-[138px] mt-[50px] justify-center flex mx-auto" preload="auto" autoPlay={!isRecording} loop muted>
+        <div className=" flex flex-col bg-[#020102]/70  rounded-[14px] " style={{ height: props.cartHeight }}>
+          <video id="dragAbleAi" playsInline ref={videoRef} style={{ marginTop: `calc(${marginValue} - 20px)`, borderRadius: "100%" }} className="pk_video w-[40%] justify-center  flex mx-auto" preload="auto" autoPlay={!isRecording} loop muted>
             <source id="videoPlayer" key={videourl} src={videourl} type="video/mp4"></source>
           </video>
           <div className="min-h-[415px] max-h-[515px] mt-4 px-6">
             <div className=" flex flex-col  ">
-              <div className=" leading-[27px] text-[20px] mb-[24px] font-[700]">
+              <div className=" leading-[27px]  mb-[24px] font-[700]" style={{ fontSize: fontSize }}>
                 <span className="  border-b-2 ">CO</span>
                 <span>NTACT</span>
               </div>
-              <div className=" flex items-center justify-between leading-[24px] mb-4 text-[16px] font-[500]">
+              <div className=" flex items-center justify-between leading-[24px] mb-4  font-[500]" style={{ fontSize: `calc(${fontSize} - 4px)` }}>
                 <div
                   onClick={() => {
                     window.open("tel:" + props.cardData.phone);
@@ -44,7 +70,7 @@ const CvProject = (props) => {
                   <div className=" cursor-pointer">Linkedin</div>
                 </div>
               </div>
-              <div className=" flex items-center justify-between leading-[24px] text-[16px] font-[500]">
+              <div className=" flex items-center justify-between leading-[24px] font-[500]" style={{ fontSize: `calc(${fontSize} - 4px)` }}>
                 <div
                   onClick={() => {
                     window.open("mailto:" + props.cardData.email + "?cc=&subject=");
@@ -65,7 +91,7 @@ const CvProject = (props) => {
                 </div>
               </div>
             </div>
-            <div className="flex  flex-col items-center justify-center mt-[50px] leading-[24px] text-[16px]  font-[500] ">
+            <div className="flex  flex-col items-center justify-center leading-[24px] font-[500] " style={{ paddingTop: `calc(${marginValue} - 40px)`, fontSize: `calc(${fontSize} - 4px)` }}>
               <p className="whitespace-nowrap">Hello, To get to know me better, </p>
               <p className="whitespace-nowrap">ask me questions</p>
             </div>

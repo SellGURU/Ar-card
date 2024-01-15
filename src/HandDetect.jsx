@@ -424,6 +424,15 @@ const HandDetect = (props) => {
         });
     }
   };
+  const [cartWidth, setCartWidth] = useState(null);
+  const [cartHeight, setCartHeight] = useState("");
+  useEffect(() => {
+    if (resultsBox.length > 0) {
+      setCartWidth(Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth);
+      setCartHeight(Math.abs(resultsBox[8].y - resultsBox[3].y) * window.innerHeight);
+    }
+  }, [resultsBox]);
+  // console.log(cartWidth);
   return (
     <>
       <div style={{}}>
@@ -529,14 +538,14 @@ const HandDetect = (props) => {
                 right: isFrontCamera ? (handSide === "Right" ? `${(1 - resultsBox[8].x) * window.innerWidth}px` : undefined) : handSide === "Left" ? `${(1 - resultsBox[8].x) * window.innerWidth}px` : undefined,
                 left: isFrontCamera ? (handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined) : handSide === "Right" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
                 height: Math.abs(resultsBox[8].y - resultsBox[3].y) * window.innerHeight,
-                width: 280,
-                // Math.abs(resultsBox[8].x - resultsBox[4].x) *
-                // window.innerWidth,
+                // width: 280,
+                width: Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth,
+                minWidth: 220,
                 top: `${resultsBox[8].y * window.innerHeight}px`,
                 overflow: "hidden",
               }}
             >
-              <CvProject chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
+              <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
             </div>
           </>
         ) : undefined}
@@ -559,10 +568,12 @@ const HandDetect = (props) => {
           }}
         ></canvas>
       </div>
+
       <div
+        // className=" absolute bottom-[60px] w-[100%] flex justify-center left-0 right-0 mx-auto"
         style={{
           position: "absolute",
-          bottom: 20,
+          bottom: 50,
           zIndex: 600,
           left: 0,
           width: "100%",
@@ -571,8 +582,11 @@ const HandDetect = (props) => {
         }}
       >
         <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
-        <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
+        <div className=" mx-auto">
+          <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
+        </div>
       </div>
+
       <div
         style={{
           visibility: "hidden",
