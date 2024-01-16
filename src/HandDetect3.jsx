@@ -361,6 +361,14 @@ const HandDetect3 = (props) => {
         });
     }
   };
+  const [cartWidth, setCartWidth] = useState(null);
+  const [cartHeight, setCartHeight] = useState("");
+  useEffect(() => {
+    if (resultsBox.length > 0) {
+      setCartWidth(Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth);
+      setCartHeight(Math.abs(resultsBox[8].y - resultsBox[3].y) * window.innerHeight);
+    }
+  }, [resultsBox]);
   return (
     <>
       <div style={{}}>
@@ -454,7 +462,6 @@ const HandDetect3 = (props) => {
               src="./lion.mp4"
             ></video> */}
             <div
-              ref={videoRef}
               style={{
                 borderRadius: 14,
                 // backgroundColor:'white',
@@ -465,16 +472,19 @@ const HandDetect3 = (props) => {
                 // opacity:'0.3',
                 zIndex: 200,
                 right: isFrontCamera ? (handSide === "Right" ? `${(1 - resultsBox[8].x) * window.innerWidth}px` : undefined) : handSide === "Left" ? `${(1 - resultsBox[8].x) * window.innerWidth}px` : undefined,
+                // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
                 left: isFrontCamera ? (handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined) : handSide === "Right" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
                 height: Math.abs(resultsBox[8].y - resultsBox[3].y) * window.innerHeight,
-                width: 280,
-                // Math.abs(resultsBox[8].x - resultsBox[4].x) *
-                // window.innerWidth,
+                // width: 280,
+                width: Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth,
+                minWidth: 220,
+
                 top: `${resultsBox[8].y * window.innerHeight}px`,
+                bottom: `${resultsBox[3].y * window.innerHeight}px`,
                 overflow: "hidden",
               }}
             >
-              <CvProject chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
+              <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
             </div>
           </>
         ) : undefined}
