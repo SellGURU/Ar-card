@@ -542,7 +542,7 @@ const HandDetect = (props) => {
                 // width: 280,
                 width: Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth,
                 minWidth: 220,
-
+                minHeight: 300,
                 top: `${resultsBox[8].y * window.innerHeight}px`,
                 bottom: `${resultsBox[3].y * window.innerHeight}px`,
                 overflow: "hidden",

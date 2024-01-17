@@ -52,7 +52,7 @@ const CvProject = (props) => {
     <>
       <div style={{ overflow: "hidden" }}>
         {/* <div style={{ display: "flex", zIndex: 20, top: 20, justifyContent: "center", width: "100%", position: "absolute" }}> */}
-        <div className=" flex flex-col bg-[#020102]/70  rounded-[14px] " style={{ height: props.cartHeight }}>
+        <div className=" flex flex-col bg-[#020102]/70  rounded-[14px] " style={{ height: props.cartHeight, minHeight: 300 }}>
           <video id="dragAbleAi" playsInline ref={videoRef} style={{ marginTop: `calc(${marginValue} - 5px)`, borderRadius: "100%", width: videoWidth }} className="pk_video  justify-center  flex mx-auto" preload="auto" autoPlay={!isRecording} loop muted>
             <source id="videoPlayer" key={videourl} src={videourl} type="video/mp4"></source>
           </video>
