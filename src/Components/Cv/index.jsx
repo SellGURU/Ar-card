@@ -52,7 +52,7 @@ const CvProject = (props) => {
     <>
       <div style={{ overflow: "hidden" }}>
         {/* <div style={{ display: "flex", zIndex: 20, top: 20, justifyContent: "center", width: "100%", position: "absolute" }}> */}
-        <div className=" flex flex-col text-white/100 bg-[#020102]/75  rounded-[14px] " style={{ height: props.cartHeight, minHeight: 300 }}>
+        <div className=" flex flex-col text-white/100 bg-[#020102]/75  rounded-[14px] " >
           <video
             id="dragAbleAi"
             playsInline

@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 
 import { ButtomController, CvProject } from "./Components";
-
+import NewCv from "./Components/Cv/newCv";
 import { useConstructor, makeid } from "./help";
 import annyang from "annyang";
 
@@ -294,6 +294,12 @@ const HandDetect = (props) => {
       setIsFrontCamera(true);
     }
   }, []);
+  const resolveWidthBox = () => {
+    if(Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth > 150) {
+      return Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
+    }
+    else return 150
+  }
   return (
     <>
       <div>
@@ -328,17 +334,19 @@ const HandDetect = (props) => {
                   : undefined,
                 // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
                 left: isFrontCamera ? (handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined) : handSide === "Right" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
-                height: Math.abs(resultsBox[8].y - resultsBox[3].y) * window.innerHeight,
+                height: resolveWidthBox() * 1.5,
                 // width: 280,
-                width: Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth,
-                minWidth: 220,
-                minHeight: 250,
+                width: resolveWidthBox() + 'px',
+                // minWidth: 220,
+                // minHeight: 250,
+                // maxWidth:414,
                 top: `${resultsBox[8].y * window.innerHeight}px`,
                 bottom: `${resultsBox[3].y * window.innerHeight}px`,
                 overflow: "hidden",
               }}
             >
-              <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
+              <NewCv cartHeight={cartHeight} cartWidth={resolveWidthBox()} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></NewCv>
+              {/* <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject> */}
             </div>
           </>
         ) : (
