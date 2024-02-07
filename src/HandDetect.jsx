@@ -8,6 +8,8 @@ import annyang from "annyang";
 
 import Flow from "./api/Flow";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+// import { LuRefreshCw } from "react-icons/lu";
 
 const HandDetect = (props) => {
   const [isTalking, setIsTalking] = useState(false);
@@ -19,6 +21,7 @@ const HandDetect = (props) => {
   //Switch Camera
   const videoCameraRef = useRef(null);
   const [isFrontCamera, setIsFrontCamera] = useState(true);
+
   const startCamera = async () => {
     try {
       const constraints = {
@@ -36,6 +39,18 @@ const HandDetect = (props) => {
       console.error("Error accessing the camera:", error);
     }
   };
+  // Detect device type and set initial camera mode
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.includes("mobile") || userAgent.includes("android") || userAgent.includes("iphone")) {
+      // For mobile devices, default to "environment"
+      setIsFrontCamera(false);
+    } else {
+      // For laptops/desktops, default to "user"
+      setIsFrontCamera(true);
+    }
+  }, []);
+
   const toggleCamera = () => {
     setIsFrontCamera((prevState) => !prevState);
     // Restart the camera with the new facing mode
@@ -54,167 +69,6 @@ const HandDetect = (props) => {
       }
     };
   }, [isFrontCamera]);
-
-  //Rotation around axesis:
-
-  // const videoRef = useRef(null);
-
-  // const rotateVideo = () => {
-  //   const newDegree = rotationDegree + parseInt(customDegree);
-  //   setRotationDegree(newDegree);
-  //   videoRef.current.style.transform = `rotateZ(${newDegree}deg)`;
-  // };
-
-  // useEffect(() => {
-  //   if (resultsBox.length > 0) {
-  //     const x8 = resultsBox[8].x;
-  //     const y8 = resultsBox[8].y;
-  //     const z8 = Math.abs(resultsBox[8].z);
-  //     const x4 = resultsBox[4].x;
-  //     const y4 = resultsBox[4].y;
-  //     const z4 = Math.abs(resultsBox[4].z);
-  //     //ROTATE AROUND Z-AXIS
-  //     if (x8 > x4) {
-  //       const alfa = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //       const alfaDegree = (alfa * 180) / Math.PI;
-
-  //       // console.log((alfa * 180) / Math.PI);
-  //       videoRef.current.style.transform = `rotateZ(${alfaDegree}deg)`;
-  //       // console.log("alfaDegree", alfaDegree);
-  //     } else if (x8 < x4) {
-  //       const alfa = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //       const alfaDegree = ((alfa * 180) / Math.PI) * -1;
-
-  //       // console.log((alfa * 180) / Math.PI);
-  //       videoRef.current.style.transform = `rotateZ(${alfaDegree}deg)`;
-  //       // console.log("alfaDegree", alfaDegree);
-  //     }
-  //     //ROTATE AROUND X-AXIS:
-  //   }
-  // }, [resultsBox]);
-  // useEffect(() => {
-  //   if (resultsBox.length > 0) {
-  //     const x8 = resultsBox[8].x;
-  //     const y8 = resultsBox[8].y;
-  //     const z8 = Math.abs(resultsBox[8].z);
-  //     const x4 = resultsBox[4].x;
-  //     const y4 = resultsBox[4].y;
-  //     const z4 = Math.abs(resultsBox[4].z);
-  //     // console.log("x8-x4", x8 - x4);
-  //     // ROTATE AROUND Z-AXIS
-  //     if (isFrontCamera) {
-  //       if (x8 > x4) {
-  //         const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //         const alfaDegreeZ = (alfaZ * 180) / Math.PI;
-  //         videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-  //         videoRef.current.style.transform += ` translateY(${
-  //           handSide === "Right" ? -40 : 100
-  //         }px)`;
-  //         videoRef.current.style.transform += ` translateX(${
-  //           handSide === "Right" ? 0 : -130
-  //         }px)`;
-  //         // const transformedWidth =
-  //         //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-  //         // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-  //         // const transformedHeight =
-  //         //   Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight;
-  //         // videoRef.current.style.transform += ` translateY(${-5}px)`;
-  //       } else if (x8 < x4) {
-  //         // videoRef.current.style.transform = ` translateY(${-50}px)`;
-  //         const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //         const alfaDegreeZ = ((alfaZ * 180) / Math.PI) * -1;
-  //         videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-  //         if (-0.05 < x8 - x4 && x8 - x4 < 0) {
-  //           videoRef.current.style.transform += ` translateY(${
-  //             handSide === "Right" ? 50 : -50
-  //           }px)`;
-  //           videoRef.current.style.transform += ` translateX(${
-  //             handSide === "Right" ? 100 : -50
-  //           }px)`;
-  //         } else {
-  //           videoRef.current.style.transform += ` translateY(${
-  //             handSide === "Right" ? 100 : -50
-  //           }px)`;
-  //           videoRef.current.style.transform += ` translateX(${
-  //             handSide === "Right" ? 100 : -50
-  //           }px)`;
-  //         }
-  //       }
-  //     } else {
-  //       if (x8 > x4) {
-  //         const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //         const alfaDegreeZ = (alfaZ * 180) / Math.PI;
-  //         videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-  //         videoRef.current.style.transform += ` translateY(${
-  //           handSide === "Right" ? 100 : -40
-  //         }px)`;
-  //         videoRef.current.style.transform += ` translateX(${
-  //           handSide === "Right" ? -130 : 100
-  //         }px)`;
-  //         // const transformedWidth =
-  //         //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-  //         // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-  //         // const transformedHeight =
-  //         //   Math.abs(resultsBox[8].y - resultsBox[4].y) * window.innerHeight;
-  //         // videoRef.current.style.transform += ` translateY(${-5}px)`;
-  //       } else if (x8 < x4) {
-  //         // videoRef.current.style.transform = ` translateY(${-50}px)`;
-  //         const alfaZ = Math.atan(Math.abs(x8 - x4) / Math.abs(y8 - y4));
-  //         const alfaDegreeZ = ((alfaZ * 180) / Math.PI) * -1;
-  //         videoRef.current.style.transform = `rotateZ(${alfaDegreeZ}deg)`;
-  //         if (-0.05 < x8 - x4 && x8 - x4 < 0) {
-  //           videoRef.current.style.transform += ` translateY(${
-  //             handSide === "Right" ? -50 : 50
-  //           }px)`;
-  //           videoRef.current.style.transform += ` translateX(${
-  //             handSide === "Right" ? -50 : 100
-  //           }px)`;
-  //         } else {
-  //           videoRef.current.style.transform += ` translateY(${
-  //             handSide === "Right" ? -50 : 100
-  //           }px)`;
-  //           videoRef.current.style.transform += ` translateX(${
-  //             handSide === "Right" ? -50 : 100
-  //           }px)`;
-  //         }
-  //       }
-  //     }
-
-  //     //Transformed in x-direction
-  //     // const transformedWidth =
-  //     //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-  //     // videoRef.current.style.transform += ` translateX(${transformedWidth}px)`;
-  //     // ROTATE AROUND X-AXIS
-  //     // const alfaX = Math.atan(Math.abs(z8 - z4) / Math.abs(y8 - y4));
-  //     // const alfaDegreeX = ((alfaX * 180) / Math.PI) * 10;
-  //     // const currentTransform = videoRef.current.style.transform || "";
-  //     // videoRef.current.style.transform = `${currentTransform} rotateX(${alfaDegreeX}deg)`;
-
-  //     // ROTATE AROUND Y-AXIS
-  //     // const alfaY = Math.atan(Math.abs(z8 - z4) / Math.abs(x8 - x4));
-  //     // const alfaDegreeY = (alfaY * 180) / Math.PI;
-  //     // videoRef.current.style.transform += ` rotateY(${alfaDegreeY}deg)`;
-
-  //     // SET TRANSFORM ORIGIN TO CENTER
-  //     videoRef.current.style.transformOrigin = "center center";
-  //   }
-  // }, [resultsBox, handSide, isFrontCamera]);
-
-  // if (resultsBox.length > 0) {
-  //   console.log("resultsBox[8].x", resultsBox[8].x);
-  //   console.log("resultsBox[8].y", resultsBox[8].y);
-  //   console.log("resultsBox[8].z", Math.abs(resultsBox[8].z));
-  //   console.log("resultsBox[4].x", resultsBox[4].x);
-  //   console.log("resultsBox[4].y", resultsBox[4].y);
-  //   console.log("resultsBox[4].z", Math.abs(resultsBox[4].z));
-  // }
-  // const handleInputChange = (e) => {
-  //   const value = e.target.value;
-  //   // Validate if the entered value is a number or a minus sign followed by a number
-  //   if (/^-?\d*\.?\d+$/.test(value) || value === "-" || value === "") {
-  //     setCustomDegree(value);
-  //   }
-  // };
 
   let canvasElement;
   let canvasCtx;
@@ -278,16 +132,17 @@ const HandDetect = (props) => {
     if (results.multiHandLandmarks) {
       for (const landmarks of results.multiHandLandmarks) {
         setResiltsBox(landmarks);
-        // setResetResultsBox(false);
-        drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-          color: "#00FF00",
-          lineWidth: 2,
-        });
-        drawLandmarks(canvasCtx, landmarks, {
-          color: "#FF0000",
-          lineWidth: 1,
-          radius: 2,
-        });
+        //DRAW CONNECTORS
+        // drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
+        //   color: "#00FF00",
+        //   lineWidth: 2,
+        // });
+        //DRAW RED POINTS
+        // drawLandmarks(canvasCtx, landmarks, {
+        //   color: "#FF0000",
+        //   lineWidth: 1,
+        //   radius: 2,
+        // });
         // cvFunction(landmarks, width, height);
         // calcHandState(landmarks, width, height);
         // drawImage();
@@ -305,7 +160,10 @@ const HandDetect = (props) => {
     document.onload = () => {
       configure();
     };
-    localStorage.setItem("accessToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s");
+    localStorage.setItem(
+      "accessToken",
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
+    );
   });
   /////
   // console.log("handSide", handSide);
@@ -342,6 +200,9 @@ const HandDetect = (props) => {
     });
     camera.start();
   };
+  useEffect(() => {
+    configure();
+  }, []);
   // console.log("8 to 4 in x ", Math.abs(resultsBox[8].x - resultsBox[4].x));
   // if (resultsBox.length > 0) {
   //   const x8 = resultsBox[8].x;
@@ -435,96 +296,19 @@ const HandDetect = (props) => {
   // console.log(cartWidth);
   return (
     <>
-      <div style={{}}>
-        <button style={{ position: "absolute", right: 80, zIndex: 300 }} onClick={toggleCamera}>
-          Switch
-        </button>
-        <button
+      <div>
+        {/* <button
           style={{ position: "absolute", right: 0, zIndex: 300 }}
           onClick={() => {
             configure();
           }}
         >
           ready
-        </button>
-        {/* <div
-          style={{
-            position: "absolute",
-            right: 0,
-            zIndex: 300,
-            marginTop: "100px",
-          }}
-        >
-          <input
-            type="text"
-            value={customDegree}
-            onChange={handleInputChange}
-            placeholder="Enter custom degree"
-          />
-          <button onClick={rotateVideo}>Rotate</button>
-        </div> */}
+        </button> */}
+
         <video ref={videoCameraRef} id="input_video" autoPlay playsInline style={{ position: "absolute", display: "none" }}></video>
         {resultsBox.length > 0 ? (
           <>
-            {/* <video
-              autoPlay
-              muted
-              // ref={videoRef}
-              loop
-              style={{
-                transition: "transform 0.2s ease",
-                display: resultsBox.length === 0 && "none",
-                position: "absolute",
-                objectFit: "fill",
-                zIndex: 200,
-                // right: `${(1 - resultsBox[8].x) * window.innerWidth}px`,
-                top: `${resultsBox[8].y * window.innerHeight}px`,
-                height: `${
-                  Math.abs(resultsBox[8].y - resultsBox[4].y) *
-                  window.innerHeight
-                }px`,
-                // width: undefined,
-                width:
-                  Math.abs(resultsBox[8].x - resultsBox[4].x) > 0.2
-                    ? `${
-                        Math.abs(resultsBox[8].x - resultsBox[4].x) *
-                        window.innerWidth
-                      }px`
-                    : undefined,
-                // width: `${
-                //   Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
-                // }px`,
-
-                right: isFrontCamera
-                  ? handSide === "Right"
-                    ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                    : undefined
-                  : handSide === "Left"
-                  ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                  : undefined,
-                left: isFrontCamera
-                  ? handSide === "Left"
-                    ? `${resultsBox[8].x * window.innerWidth}px`
-                    : undefined
-                  : handSide === "Right"
-                  ? `${resultsBox[8].x * window.innerWidth}px`
-                  : undefined,
-                // right:
-                //   handSide === "Right"
-                //     ? `${100 - resultsBox[8].x * 100}%`
-                //     : undefined,
-                // left:
-                //   handSide === "Left" ? `${resultsBox[8].x * 100}%` : undefined,
-                // height:
-                //   ResolveDistance(resultsBox[8], resultsBox[3]) *
-                //   window.innerHeight,
-                // width:
-                //   ResolveDistance(resultsBox[4], resultsBox[0]) *
-                //   window.innerWidth,
-                // bottom: `${100 - resultsBox[2].y * 100}%`,
-              }}
-              src="./lion.mp4"
-            ></video> */}
             <div
               style={{
                 borderRadius: 14,
@@ -535,14 +319,20 @@ const HandDetect = (props) => {
                 position: "absolute",
                 // opacity:'0.3',
                 zIndex: 200,
-                right: isFrontCamera ? (handSide === "Right" ? `${(1 - resultsBox[8].x) * window.innerWidth}px` : undefined) : handSide === "Left" ? `${(1 - resultsBox[8].x) * window.innerWidth}px` : undefined,
+                right: isFrontCamera
+                  ? handSide === "Right"
+                    ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                    : undefined
+                  : handSide === "Left"
+                  ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                  : undefined,
                 // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
                 left: isFrontCamera ? (handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined) : handSide === "Right" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
                 height: Math.abs(resultsBox[8].y - resultsBox[3].y) * window.innerHeight,
                 // width: 280,
                 width: Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth,
                 minWidth: 220,
-                minHeight: 300,
+                minHeight: 250,
                 top: `${resultsBox[8].y * window.innerHeight}px`,
                 bottom: `${resultsBox[3].y * window.innerHeight}px`,
                 overflow: "hidden",
@@ -551,15 +341,42 @@ const HandDetect = (props) => {
               <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject>
             </div>
           </>
-        ) : undefined}
-        <img
+        ) : (
+          <>
+            {/* Gray layout and loading indicator */}
+            <div
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 9999, // Ensure it's above other content
+              }}
+            >
+              <div className=" flex flex-col items-center">
+                <img src="./../hand-hold.svg" alt="" className="w-[143px] h-[148px]" />
+                <div className=" flex flex-col  items-center leading-[30px] text-[20px] font-[500]">
+                  <p className="whitespace-nowrap">Place your hand in front of</p>
+                  <p className="whitespace-nowrap">the camera to be detected</p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* <img
           id="beam"
           src="./processed-41be68d3-7674-435f-811b-00f1b3a7a576_7RxyJBHt.jpeg"
           style={{
             position: "absolute",
             display: "none",
           }}
-        />
+        /> */}
         <canvas
           id="output_canvas"
           style={{
@@ -571,7 +388,16 @@ const HandDetect = (props) => {
           }}
         ></canvas>
       </div>
-
+      <div style={{ position: "absolute", cursor: "pointer", bottom: 30, right: 50, zIndex: 100 }} onClick={toggleCamera}>
+        <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
+          <img src="./../refresh.svg" alt="" className="w-[20px] h-[20px] bg-white" />
+        </div>
+      </div>
+      <Link to="https://card-visit-wheat.vercel.app/#/" style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}>
+        <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
+          <img src="./../close.svg" alt="" className="w-[20px] h-[20px] bg-white" />
+        </div>
+      </Link>
       <div
         // className=" absolute bottom-[60px] w-[100%] flex justify-center left-0 right-0 mx-auto"
         style={{
@@ -585,7 +411,7 @@ const HandDetect = (props) => {
         }}
       >
         <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
-        <div className=" mx-auto">
+        <div className="">
           <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
         </div>
       </div>
