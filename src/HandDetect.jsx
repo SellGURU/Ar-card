@@ -9,6 +9,8 @@ import annyang from "annyang";
 import Flow from "./api/Flow";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import CameraModal from "./Components/Modals/CameraModal";
+// import CameraAccess from "./Components/Modals/CameraAccess";
 // import { LuRefreshCw } from "react-icons/lu";
 
 const HandDetect = (props) => {
@@ -18,6 +20,7 @@ const HandDetect = (props) => {
   const [audioUrl, setAudioUrl] = useState("");
   const [resultsBox, setResiltsBox] = useState({});
   const [handSide, setHandSide] = useState({});
+  const [showCameraModal, setShowCameraModal] = useState(true);
   //Switch Camera
   const videoCameraRef = useRef(null);
   const [isFrontCamera, setIsFrontCamera] = useState(true);
@@ -189,9 +192,9 @@ const HandDetect = (props) => {
     });
     camera.start();
   };
-  useEffect(() => {
-    configure();
-  }, []);
+  // useEffect(() => {
+  //   configure();
+  // }, []);
   // console.log("8 to 4 in x ", Math.abs(resultsBox[8].x - resultsBox[4].x));
   // if (resultsBox.length > 0) {
   //   const x8 = resultsBox[8].x;
@@ -295,177 +298,182 @@ const HandDetect = (props) => {
     }
   }, []);
   const resolveWidthBox = () => {
-    if(Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth > 150) {
-      return Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth
+    if (Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth > 150) {
+      return Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
+    } else return 150;
+  };
+
+  useEffect(() => {
+    if (!showCameraModal) {
+      configure();
     }
-    else return 150
-  }
+  }, [showCameraModal]);
+  const handleClose = () => {
+    // Navigate to the specified page
+    window.location.href = "https://card-visit-wheat.vercel.app/#/";
+  };
   return (
     <>
-      <div>
-        {/* <button
-          style={{ position: "absolute", right: 0, zIndex: 300 }}
-          onClick={() => {
-            configure();
-          }}
-        >
-          ready
-        </button> */}
+      {!showCameraModal && (
+        <div>
+          <div>
+            <video ref={videoCameraRef} id="input_video" autoPlay playsInline style={{ position: "absolute", display: "none" }}></video>
+            {
+              resultsBox.length > 0 ? (
+                <>
+                  <div
+                    style={{
+                      borderRadius: 14,
+                      // backgroundColor:'white',
+                      transition: "transform 0.2s ease",
+                      display: resultsBox.length === 0 && "none",
+                      backgroundColor: "rgba(255, 255, 255, .1)",
+                      position: "absolute",
+                      // opacity:'0.3',
+                      zIndex: 200,
+                      right: isFrontCamera
+                        ? handSide === "Right"
+                          ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                          : undefined
+                        : handSide === "Left"
+                        ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                        : undefined,
+                      // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
+                      left: isFrontCamera
+                        ? handSide === "Left"
+                          ? `${resultsBox[8].x * window.innerWidth}px`
+                          : undefined
+                        : handSide === "Right"
+                        ? `${resultsBox[8].x * window.innerWidth}px`
+                        : undefined,
+                      height: resolveWidthBox() * 1.5,
+                      // width: 280,
+                      width: resolveWidthBox() + "px",
+                      // minWidth: 220,
+                      // minHeight: 250,
+                      // maxWidth:414,
+                      top: `${resultsBox[8].y * window.innerHeight}px`,
+                      bottom: `${resultsBox[3].y * window.innerHeight}px`,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <NewCv cartHeight={cartHeight} cartWidth={resolveWidthBox()} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></NewCv>
+                    {/* <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject> */}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Gray layout and loading indicator */}
+                  <div
+                    style={{
+                      backgroundColor: "rgba(0, 0, 0, 0.6)",
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      zIndex: 200, // Ensure it's above other content
+                    }}
+                  >
+                    <div className=" flex flex-col items-center">
+                      <img src="./../hand-hold.svg" alt="" className="w-[143px] h-[148px]" />
+                      <div className=" flex flex-col  items-center leading-[30px] text-[20px] font-[500]">
+                        <p className="whitespace-nowrap">Place your hand in front of</p>
+                        <p className="whitespace-nowrap">the camera to be detected</p>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+              // undefined
+            }
 
-        <video ref={videoCameraRef} id="input_video" autoPlay playsInline style={{ position: "absolute", display: "none" }}></video>
-        {resultsBox.length > 0 ? (
-          <>
-            <div
+            <canvas
+              id="output_canvas"
               style={{
-                borderRadius: 14,
-                // backgroundColor:'white',
-                transition: "transform 0.2s ease",
-                display: resultsBox.length === 0 && "none",
-                backgroundColor: "rgba(255, 255, 255, .1)",
                 position: "absolute",
-                // opacity:'0.3',
-                zIndex: 200,
-                right: isFrontCamera
-                  ? handSide === "Right"
-                    ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                    : undefined
-                  : handSide === "Left"
-                  ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
-                  : undefined,
-                // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
-                left: isFrontCamera ? (handSide === "Left" ? `${resultsBox[8].x * window.innerWidth}px` : undefined) : handSide === "Right" ? `${resultsBox[8].x * window.innerWidth}px` : undefined,
-                height: resolveWidthBox() * 1.5,
-                // width: 280,
-                width: resolveWidthBox() + 'px',
-                // minWidth: 220,
-                // minHeight: 250,
-                // maxWidth:414,
-                top: `${resultsBox[8].y * window.innerHeight}px`,
-                bottom: `${resultsBox[3].y * window.innerHeight}px`,
-                overflow: "hidden",
-              }}
-            >
-              <NewCv cartHeight={cartHeight} cartWidth={resolveWidthBox()} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></NewCv>
-              {/* <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject> */}
-            </div>
-          </>
-        ) : (
-          <>
-            {/* Gray layout and loading indicator */}
-            <div
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.6)",
-                position: "fixed",
-                top: 0,
-                left: 0,
                 width: "100%",
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 9999, // Ensure it's above other content
+                height: "100vh",
+                top: 0,
+                zIndex: 100,
               }}
-            >
-              <div className=" flex flex-col items-center">
-                <img src="./../hand-hold.svg" alt="" className="w-[143px] h-[148px]" />
-                <div className=" flex flex-col  items-center leading-[30px] text-[20px] font-[500]">
-                  <p className="whitespace-nowrap">Place your hand in front of</p>
-                  <p className="whitespace-nowrap">the camera to be detected</p>
-                </div>
-              </div>
+            ></canvas>
+          </div>
+          <div style={{ position: "absolute", cursor: "pointer", bottom: 30, right: 50, zIndex: 100 }} onClick={toggleCamera}>
+            <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
+              <img src="./../refresh.svg" alt="" className="w-[20px] h-[20px] bg-white" />
             </div>
-          </>
-        )}
-
-        {/* <img
-          id="beam"
-          src="./processed-41be68d3-7674-435f-811b-00f1b3a7a576_7RxyJBHt.jpeg"
-          style={{
-            position: "absolute",
-            display: "none",
-          }}
-        /> */}
-        <canvas
-          id="output_canvas"
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100vh",
-            top: 0,
-            zIndex: 100,
-          }}
-        ></canvas>
-      </div>
-      <div style={{ position: "absolute", cursor: "pointer", bottom: 30, right: 50, zIndex: 100 }} onClick={toggleCamera}>
-        <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
-          <img src="./../refresh.svg" alt="" className="w-[20px] h-[20px] bg-white" />
-        </div>
-      </div>
-      <Link to="https://card-visit-wheat.vercel.app/#/" style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}>
-        <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
-          <img src="./../close.svg" alt="" className="w-[20px] h-[20px] bg-white" />
-        </div>
-      </Link>
-      <div
-        // className=" absolute bottom-[60px] w-[100%] flex justify-center left-0 right-0 mx-auto"
-        style={{
-          position: "absolute",
-          bottom: 50,
-          zIndex: 600,
-          left: 0,
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
-        <div className="">
-          <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
-        </div>
-      </div>
-
-      <div
-        style={{
-          visibility: "hidden",
-          top: 0,
-          left: 0,
-          position: "absolute",
-          width: "0px",
-          height: "0px",
-        }}
-      >
-        <div style={{ position: "absolute", zIndex: 300 }}>
-          <audio
-            ref={audioRef}
-            controls
-            onEnded={() => {
-              setAudioUrl("");
-              setIsTalking(false);
-              // if(chat.length == 0){
-              //   setTimeout(() => {
-              //     setShowSuggestion(true)
-              //   }, 20000);
-              // }
-            }}
-            autoPlay={isTalking && !isRecording}
+          </div>
+          <Link
+            to="https://card-visit-wheat.vercel.app/#/"
+            style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
           >
-            <source id="audioPlayer" src={audioUrl} type="audio/mpeg" />
-          </audio>
+            <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
+              <img src="./../close.svg" alt="" className="w-[20px] h-[20px] bg-white" />
+            </div>
+          </Link>
+          <div
+            // className=" absolute bottom-[60px] w-[100%] flex justify-center left-0 right-0 mx-auto"
+            style={{
+              position: "absolute",
+              bottom: 50,
+              zIndex: 600,
+              left: 0,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
+            <div className="">
+              <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
+            </div>
+          </div>
+
+          <div
+            style={{
+              visibility: "hidden",
+              top: 0,
+              left: 0,
+              position: "absolute",
+              width: "0px",
+              height: "0px",
+            }}
+          >
+            <div style={{ position: "absolute", zIndex: 300 }}>
+              <audio
+                ref={audioRef}
+                controls
+                onEnded={() => {
+                  setAudioUrl("");
+                  setIsTalking(false);
+                  // if(chat.length == 0){
+                  //   setTimeout(() => {
+                  //     setShowSuggestion(true)
+                  //   }, 20000);
+                  // }
+                }}
+                autoPlay={isTalking && !isRecording}
+              >
+                <source id="audioPlayer" src={audioUrl} type="audio/mpeg" />
+              </audio>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
+      <CameraModal
+        isOpen={showCameraModal}
+        onClose={handleClose}
+        onConfirm={() => {
+          setShowCameraModal(false);
+          configure();
+        }}
+      />
+      {/* <CameraAccess showModal={showCameraModal} /> */}
     </>
   );
 };
 export default HandDetect;
-
-// Detect device type and set initial camera mode
-// useEffect(() => {
-//   const userAgent = navigator.userAgent.toLowerCase();
-//   if (userAgent.includes("mobile") || userAgent.includes("android") || userAgent.includes("iphone")) {
-//     // For mobile devices, default to "environment"
-//     setIsFrontCamera(false);
-//   } else {
-//     // For laptops/desktops, default to "user"
-//     setIsFrontCamera(true);
-//   }
-// }, []);

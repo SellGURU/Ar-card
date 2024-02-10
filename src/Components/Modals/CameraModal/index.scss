@@ -1,0 +1,7 @@
+.ReactModal__Content {
+  @apply static #{!important};
+}
+
+.ReactModal__Overlay {
+  @apply flex w-full justify-center z-20 items-center #{!important};
+}
