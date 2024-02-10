@@ -24,7 +24,7 @@ const HandDetect = (props) => {
   //Switch Camera
   const videoCameraRef = useRef(null);
   const [isFrontCamera, setIsFrontCamera] = useState(true);
-
+  const [showHelp,setShowHelp] = useState(false)
   const startCamera = async () => {
     try {
       const constraints = {
@@ -49,6 +49,16 @@ const HandDetect = (props) => {
     startCamera();
   };
 
+  // useEffect(() => {
+  //   console.log(resultsBox.length)
+  //   if(resultsBox.length == undefined) {
+  //     setTimeout(() => {
+  //       setShowHelp(true)
+  //     }, 10000);
+  //   }else{
+  //     setShowHelp(false)
+  //   }
+  // })
   // Start the camera when the component mounts
   useEffect(() => {
     startCamera();
@@ -361,7 +371,12 @@ const HandDetect = (props) => {
                     {/* <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject> */}
                   </div>
                 </>
-              ) : (
+              ) : undefined
+              // undefined
+            }
+            {
+              showHelp ?
+              (
                 <>
                   {/* Gray layout and loading indicator */}
                   <div
@@ -387,10 +402,9 @@ const HandDetect = (props) => {
                     </div>
                   </div>
                 </>
-              )
-              // undefined
+              )      
+              :undefined        
             }
-
             <canvas
               id="output_canvas"
               style={{
@@ -404,7 +418,7 @@ const HandDetect = (props) => {
           </div>
           <div style={{ position: "absolute", cursor: "pointer", bottom: 30, right: 50, zIndex: 100 }} onClick={toggleCamera}>
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
-              <img src="./../refresh.svg" alt="" className="w-[20px] h-[20px] bg-white" />
+              <img src="refresh.svg" alt="" className="w-[20px] h-[20px] bg-white" />
             </div>
           </div>
           <Link
@@ -412,7 +426,7 @@ const HandDetect = (props) => {
             style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
           >
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
-              <img src="./../close.svg" alt="" className="w-[20px] h-[20px] bg-white" />
+              <img src="close.svg" alt="" className="w-[20px] h-[20px] bg-white" />
             </div>
           </Link>
           <div

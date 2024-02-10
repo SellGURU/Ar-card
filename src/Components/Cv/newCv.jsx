@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useConstructor } from "../../help";
 
 const NewCv =(props) => {
@@ -18,6 +18,12 @@ const NewCv =(props) => {
             return '16px'
         }
     }
+    useEffect(() => {
+        if (videoRef.current) {
+            const refren = videoRef.current;
+            refren.load();
+        }
+    }, [props.isTalking]);    
     const fontsizeTitleResolver2 = () => {
         if (props.cartWidth < 200) {
             return '8px'
@@ -32,6 +38,24 @@ const NewCv =(props) => {
     useConstructor(() => {
         setvideourl(props.cardData.silentvideo);
     });    
+    useEffect(() => {
+        console.log(props.isTalking)
+        if(props.isTalking == false) {
+            setvideourl(props.cardData.silentvideo);
+            setTimeout(() => {
+                const refren = videoRef.current;
+                refren.load();
+                
+            }, 200);       
+        }else{
+            setvideourl(props.cardData.chatvideo);
+            setTimeout(() => {
+                const refren = videoRef.current;
+                refren.load();
+                
+            }, 200);       
+        }
+    },[props.isTalking])
     return (
         <>
             <div className="overflow-hidden bg-[#020102]/75 w-full h-full ">
