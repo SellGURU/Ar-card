@@ -49,16 +49,16 @@ const HandDetect = (props) => {
     startCamera();
   };
 
-  // useEffect(() => {
-  //   console.log(resultsBox.length)
-  //   if(resultsBox.length == undefined) {
-  //     setTimeout(() => {
-  //       setShowHelp(true)
-  //     }, 10000);
-  //   }else{
-  //     setShowHelp(false)
-  //   }
-  // })
+  useEffect(() => {
+    console.log(resultsBox.length)
+    if(resultsBox.length == undefined) {
+      setTimeout(() => {
+        setShowHelp(true)
+      }, 10000);
+    }else{
+      setShowHelp(false)
+    }
+  })
   // Start the camera when the component mounts
   useEffect(() => {
     startCamera();
@@ -481,8 +481,9 @@ const HandDetect = (props) => {
       <CameraModal
         isOpen={showCameraModal}
         onClose={handleClose}
-        onConfirm={() => {
+        onConfirm={async () => {
           setShowCameraModal(false);
+          await navigator.permissions.query( { name: "camera" } );
           configure();
         }}
       />
