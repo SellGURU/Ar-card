@@ -390,7 +390,7 @@ const HandDetect = (props) => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      zIndex: 200, // Ensure it's above other content
+                      zIndex: 1050, // Ensure it's above other content
                     }}
                   >
                     <div className=" flex flex-col items-center">
