@@ -75,8 +75,8 @@ const NewCv =(props) => {
                 </video>                
                 <div className="px-4">
                     <div className=" leading-[27px]  mb-2 text-sm " style={{fontSize:fontsizeTitleResolver(),marginTop:'8%'}}>
-                        <span className="  border-b-2 ">CO</span>
-                        <span>NTACT</span>
+                        <span className=" text-white border-b-2 ">CO</span>
+                        <span className="text-white">NTACT</span>
                     </div> 
                     <div className=" flex items-center space-x-1 justify-between mt-2 leading-[24px] mb-[2px]  font-[500]" style={{ fontSize: `calc(${fontsizeTitleResolver()} - 4px)` }}>
                         <div
@@ -86,7 +86,7 @@ const NewCv =(props) => {
                         className=" flex items-center space-x-1"
                         >
                         <img src="./call2.svg" alt="" />
-                        <div className=" cursor-pointer">{props.cardData.phone}</div>
+                        <div className="text-white cursor-pointer">{props.cardData.phone}</div>
                         </div>
                         <div
                         className=" flex items-center space-x-1 "
@@ -95,7 +95,7 @@ const NewCv =(props) => {
                         }}
                         >
                         <img src="./linkedin2.svg" alt="" />
-                        <div className=" cursor-pointer">Linkedin</div>
+                        <div className="text-white cursor-pointer">Linkedin</div>
                         </div>
                     </div>
                     <div className=" flex items-center space-x-1 justify-between leading-[24px] font-[500]" style={{ fontSize: fontsizeTitleResolver2() }}>
@@ -106,7 +106,7 @@ const NewCv =(props) => {
                         className=" flex items-center space-x-1"
                         >
                         <img src="./email2.svg" alt="" />
-                        <div className=" cursor-pointer">{props.cardData.email}</div>
+                        <div className="text-white cursor-pointer">{props.cardData.email}</div>
                         </div>
                         <div
                         className=" flex items-center space-x-1 "
@@ -115,13 +115,13 @@ const NewCv =(props) => {
                         }}
                         >
                         <img src="./global2.svg" alt="" />
-                        <div className=" cursor-pointer">codie.ai</div>
+                        <div className="text-white cursor-pointer">codie.ai</div>
                         </div>
                     </div>                                           
                 </div>
                 <div className="flex  flex-col items-center absolute bottom-4 w-full justify-center font-[500] " style={{ fontSize: fontsizeTitleResolver2() }}>
-                <div className="whitespace-nowrap">Hello, To get to know me better, </div>
-                <div className="whitespace-nowrap">ask me questions</div>
+                <div className="whitespace-nowrap text-white">Hello, To get to know me better, </div>
+                <div className="whitespace-nowrap text-white">ask me questions</div>
                 </div>                
             </div>
         </>
