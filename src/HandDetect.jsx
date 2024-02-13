@@ -357,7 +357,7 @@ const HandDetect = (props) => {
                       position: "absolute",
                       // opacity:'0.3',
                       zIndex: 200,
-                      left: isFrontCamera
+                      right: isFrontCamera
                         ? handSide === "Right"
                           ? `${(resultsBox[8].x) * window.innerWidth}px`
                           : undefined
@@ -365,7 +365,7 @@ const HandDetect = (props) => {
                         ? `${(resultsBox[8].x) * window.innerWidth}px`
                         : undefined,
                       // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
-                      right: isFrontCamera
+                      left: isFrontCamera
                         ? handSide === "Left"
                           ? `${1-resultsBox[8].x * window.innerWidth}px`
                           : undefined
