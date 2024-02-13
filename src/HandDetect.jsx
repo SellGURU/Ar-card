@@ -103,6 +103,7 @@ const HandDetect = (props) => {
     setResolveText("");
     annyang.start({ autoRestart: false, continuous: false });
     setIsRecording(false);
+    setIsTalking(false)
     // stopSpeetchToText()
   };
   const stopSpeetchToText = () => {
