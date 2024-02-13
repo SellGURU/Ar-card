@@ -30,7 +30,7 @@ const HandDetect = (props) => {
     try {
       const constraints = {
         video: {
-          facingMode: isFrontCamera ? "environment" : "user",
+          facingMode: "environment" ,
         },
       };
 
@@ -85,6 +85,7 @@ const HandDetect = (props) => {
       annyang.addCallback("result", function (phrases) {
         // console.log(phrases)
         setResolveText(phrases[0]);
+        setIsRecording(false)
         // sendToApi()
       });
     }
@@ -228,6 +229,7 @@ const HandDetect = (props) => {
     const adminChats = chat.filter((item) => item.from === "admin");
     const chats = chat;
     console.log(resolveText.length > 0);
+    setIsRecording(false)
     if (resolveText.length > 0) {
       const newChat = {
         type: "text",
@@ -425,11 +427,11 @@ const HandDetect = (props) => {
               }}
             ></canvas>
           </div>
-          <div style={{ position: "absolute", cursor: "pointer", bottom: 30, right: 50, zIndex: 100 }} onClick={toggleCamera}>
+          {/* <div style={{ position: "absolute", cursor: "pointer", bottom: 30, right: 50, zIndex: 100 }} onClick={toggleCamera}>
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
               <img src="refresh.svg" alt="" className="w-[20px] h-[20px] bg-white" />
             </div>
-          </div>
+          </div> */}
           <Link
             to="https://ava-talk-kbda.vercel.app/#/?splash=false"
             style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
