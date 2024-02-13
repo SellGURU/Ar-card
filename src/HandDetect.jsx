@@ -329,7 +329,7 @@ const HandDetect = (props) => {
   }, [showCameraModal]);
   const handleClose = () => {
     // Navigate to the specified page
-    window.location.href = "https://card-visit-wheat.vercel.app/#/";
+    window.location.href = "https://ava-talk-kbda.vercel.app/#/?splash=false";
   };
   return (
     <>
@@ -431,7 +431,7 @@ const HandDetect = (props) => {
             </div>
           </div>
           <Link
-            to="https://card-visit-wheat.vercel.app/#/"
+            to="https://ava-talk-kbda.vercel.app/#/?splash=false"
             style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
           >
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
