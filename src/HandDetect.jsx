@@ -30,7 +30,7 @@ const HandDetect = (props) => {
     try {
       const constraints = {
         video: {
-          facingMode: isFrontCamera ? "user" : "environment",
+          facingMode: isFrontCamera ? "environment" : "user",
         },
       };
 
