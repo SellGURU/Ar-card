@@ -102,7 +102,7 @@ const HandDetect = (props) => {
   const startSpeetchToText = () => {
     setResolveText("");
     annyang.start({ autoRestart: false, continuous: false });
-    setIsRecording(true);
+    setIsRecording(false);
     // stopSpeetchToText()
   };
   const stopSpeetchToText = () => {
@@ -494,7 +494,7 @@ const HandDetect = (props) => {
                   //   }, 20000);
                   // }
                 }}
-                autoPlay={isTalking && !isRecording}
+                autoPlay={isTalking && !annyang.isListening()}
               >
                 <source id="audioPlayer" src={audioUrl} type="audio/mpeg" />
               </audio>
