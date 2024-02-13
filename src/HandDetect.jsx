@@ -23,7 +23,7 @@ const HandDetect = (props) => {
   const [showCameraModal, setShowCameraModal] = useState(true);
   //Switch Camera
   const videoCameraRef = useRef(null);
-  const [isFrontCamera, setIsFrontCamera] = useState(true);
+  const [isFrontCamera, setIsFrontCamera] = useState(false);
   const [showHelp,setShowHelp] = useState(false)
   const [videoStarted,setVideoStarted] = useState(false)
   const startCamera = async () => {
@@ -52,7 +52,7 @@ const HandDetect = (props) => {
   };
 
   useEffect(() => {
-    console.log(resultsBox.length)
+    // console.log(resultsBox.length)
     if(resultsBox.length == undefined && videoStarted) {
       setTimeout(() => {
         setShowHelp(true)
@@ -239,7 +239,7 @@ const HandDetect = (props) => {
   const sendToApi = () => {
     const adminChats = chat.filter((item) => item.from === "admin");
     const chats = chat;
-    console.log(resolveText.length > 0);
+    // console.log(resolveText.length > 0);
     // setIsRecording(false)
     if (resolveText.length > 0 ) {
       const newChat = {
@@ -331,7 +331,8 @@ const HandDetect = (props) => {
   };
 
   const resolveheightBox = () => {
-      console.log(Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight)
+    console.log(handSide)
+      // console.log(Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight)
     if (Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight > 250) {
       return Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight;
     } else return 250;
@@ -369,15 +370,15 @@ const HandDetect = (props) => {
                           ? `${(resultsBox[8].x) * window.innerWidth}px`
                           : undefined
                         : handSide === "Left"
-                        ? `${(resultsBox[8].x) * window.innerWidth}px`
+                        ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
                         : undefined,
                       // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
                       left: isFrontCamera
                         ? handSide === "Left"
-                          ? `${1-resultsBox[8].x * window.innerWidth}px`
+                          ? `${(1-resultsBox[8].x) * window.innerWidth}px`
                           : undefined
                         : handSide === "Right"
-                        ? `${1-resultsBox[8].x * window.innerWidth}px`
+                        ? `${(1-resultsBox[8].x) * window.innerWidth}px`
                         : undefined,
                       height: resolveheightBox()+'px',
                       // width: 280,
