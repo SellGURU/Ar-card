@@ -25,6 +25,7 @@ const HandDetect = (props) => {
   const videoCameraRef = useRef(null);
   const [isFrontCamera, setIsFrontCamera] = useState(true);
   const [showHelp,setShowHelp] = useState(false)
+  const [videoStarted,setVideoStarted] = useState(false)
   const startCamera = async () => {
     try {
       const constraints = {
@@ -34,6 +35,7 @@ const HandDetect = (props) => {
       };
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      setVideoStarted(true)
 
       if (videoCameraRef.current) {
         videoCameraRef.current.srcObject = stream;
@@ -51,7 +53,7 @@ const HandDetect = (props) => {
 
   useEffect(() => {
     console.log(resultsBox.length)
-    if(resultsBox.length == undefined) {
+    if(resultsBox.length == undefined && videoStarted) {
       setTimeout(() => {
         setShowHelp(true)
       }, 10000);
@@ -61,7 +63,7 @@ const HandDetect = (props) => {
   })
   // Start the camera when the component mounts
   useEffect(() => {
-    startCamera();
+    // startCamera();
     // Clean up - stop the camera when the component unmounts
     return () => {
       if (videoCameraRef.current && videoCameraRef.current.srcObject) {
@@ -159,9 +161,9 @@ const HandDetect = (props) => {
   // });
   ////
   useConstructor(() => {
-    document.onload = () => {
-      configure();
-    };
+    // document.onload = () => {
+    //   configure();
+    // };
     localStorage.setItem(
       "accessToken",
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
@@ -201,6 +203,7 @@ const HandDetect = (props) => {
       height: 720,
     });
     camera.start();
+    setVideoStarted(true)
   };
   // useEffect(() => {
   //   configure();
@@ -396,8 +399,8 @@ const HandDetect = (props) => {
                     <div className=" flex flex-col items-center">
                       <img src="./../hand-hold.svg" alt="" className="w-[143px] h-[148px]" />
                       <div className=" flex flex-col  items-center leading-[30px] text-[20px] font-[500]">
-                        <p className="whitespace-nowrap">Place your hand in front of</p>
-                        <p className="whitespace-nowrap">the camera to be detected</p>
+                        <p className="whitespace-nowrap text-white">Place your hand in front of</p>
+                        <p className="whitespace-nowrap text-white">the camera to be detected</p>
                       </div>
                     </div>
                   </div>
