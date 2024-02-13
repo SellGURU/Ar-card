@@ -85,7 +85,7 @@ const HandDetect = (props) => {
       annyang.addCallback("result", function (phrases) {
         // console.log(phrases)
         setResolveText(phrases[0]);
-        setIsRecording(false)
+        // setIsRecording(false)
         // sendToApi()
       });
     }
@@ -95,9 +95,9 @@ const HandDetect = (props) => {
 
   const startSpeetchToText = () => {
     setResolveText("");
-    annyang.start({ autoRestart: true, continuous: false });
+    annyang.start({ autoRestart: false, continuous: false });
     setIsRecording(true);
-    // console.log(annyang.isListening())
+    // stopSpeetchToText()
   };
   const stopSpeetchToText = () => {
     annyang.abort();
@@ -234,7 +234,7 @@ const HandDetect = (props) => {
     const adminChats = chat.filter((item) => item.from === "admin");
     const chats = chat;
     console.log(resolveText.length > 0);
-    setIsRecording(false)
+    // setIsRecording(false)
     if (resolveText.length > 0) {
       const newChat = {
         type: "text",
@@ -359,18 +359,18 @@ const HandDetect = (props) => {
                       zIndex: 200,
                       left: isFrontCamera
                         ? handSide === "Right"
-                          ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                          ? `${(resultsBox[8].x) * window.innerWidth}px`
                           : undefined
                         : handSide === "Left"
-                        ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                        ? `${(resultsBox[8].x) * window.innerWidth}px`
                         : undefined,
                       // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
                       right: isFrontCamera
                         ? handSide === "Left"
-                          ? `${resultsBox[8].x * window.innerWidth}px`
+                          ? `${1-resultsBox[8].x * window.innerWidth}px`
                           : undefined
                         : handSide === "Right"
-                        ? `${resultsBox[8].x * window.innerWidth}px`
+                        ? `${1-resultsBox[8].x * window.innerWidth}px`
                         : undefined,
                       height: resolveheightBox()+'px',
                       // width: 280,
@@ -459,7 +459,7 @@ const HandDetect = (props) => {
           >
             <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
             <div className="">
-              <ButtomController isRecording={isRecording} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
+              <ButtomController isRecording={annyang.isListening()} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
             </div>
           </div>
 
