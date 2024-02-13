@@ -309,7 +309,7 @@ const HandDetect = (props) => {
       // For laptops/desktops, default to "user"
       setIsFrontCamera(true);
     }
-  }, []);
+, []);
   const resolveWidthBox = () => {
     if (Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth > 250) {
       return Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
