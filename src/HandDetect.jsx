@@ -200,10 +200,12 @@ const HandDetect = (props) => {
         //Perform hand detection using the camera's image.
         await hands.send({ image: videoElement });
       },
+      
       width: 1280,
       height: 720,
     });
     camera.start();
+    startCamera()
     setVideoStarted(true)
   };
   // useEffect(() => {
