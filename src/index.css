@@ -78,3 +78,12 @@ button:focus-visible {
     display: none !important;
   }
 }
+
+#output_canvas{
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+}
