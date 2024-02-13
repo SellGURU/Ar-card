@@ -86,12 +86,18 @@ const HandDetect = (props) => {
         // console.log(phrases)
         setResolveText(phrases[0]);
         // setIsRecording(false)
+        // stopSpeetchToText()
         // sendToApi()
       });
     }
   });
   const [resolveText, setResolveText] = useState("");
   const [isRecording, setIsRecording] = useState(false);
+  useEffect(() => {
+    if(resolveText.length> 0){
+      sendToApi()
+    }
+  },[resolveText])
 
   const startSpeetchToText = () => {
     setResolveText("");
@@ -235,19 +241,20 @@ const HandDetect = (props) => {
     const chats = chat;
     console.log(resolveText.length > 0);
     // setIsRecording(false)
-    if (resolveText.length > 0) {
+    if (resolveText.length > 0 ) {
       const newChat = {
         type: "text",
         like: null,
         message: resolveText,
         from: "user",
-        timestamp: 10,
+        timestamp: makeid(15),
         message_key: makeid(15),
         question: resolveText,
         weekDay: new Date().getDay(),
         month: new Date().getMonth(),
         day: new Date().getDate(),
       };
+      // setResolveText("")
       chats.push(newChat);
       setChat(chats);
       // setIsLoading(true);
