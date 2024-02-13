@@ -317,9 +317,10 @@ const HandDetect = (props) => {
   };
 
   const resolveheightBox = () => {
-    // if (Math.abs(resultsBox[8].x - resultsBox[1].x) * window.innerHeight > 250) {
+      console.log(Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight)
+    if (Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight > 250) {
       return Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight;
-    // } else return 250;
+    } else return 250;
   };
   useEffect(() => {
     if (!showCameraModal) {
