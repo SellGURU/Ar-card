@@ -316,6 +316,11 @@ const HandDetect = (props) => {
     } else return 250;
   };
 
+  const resolveheightBox = () => {
+    // if (Math.abs(resultsBox[8].x - resultsBox[1].x) * window.innerHeight > 250) {
+      return Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight;
+    // } else return 250;
+  };
   useEffect(() => {
     if (!showCameraModal) {
       configure();
@@ -359,9 +364,9 @@ const HandDetect = (props) => {
                         : handSide === "Right"
                         ? `${resultsBox[8].x * window.innerWidth}px`
                         : undefined,
-                      height: resolveWidthBox() * 1.5 + 'px',
+                      height: resolveheightBox()+'px',
                       // width: 280,
-                      width: resolveWidthBox() + "px",
+                      width: resolveheightBox() / 1.5 + "px",
                       // minWidth: 220,
                       // minHeight: 250,
                       // maxWidth:414,
