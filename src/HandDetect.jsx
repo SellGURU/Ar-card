@@ -205,7 +205,10 @@ const HandDetect = (props) => {
       height: 720,
     });
     camera.start();
-    startCamera()
+    setTimeout(() => {
+      startCamera()
+    
+    }, 3000);
     setVideoStarted(true)
   };
   // useEffect(() => {
