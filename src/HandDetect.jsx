@@ -302,10 +302,10 @@ const HandDetect = (props) => {
   // Detect device type and set initial camera mode
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
-    if (userAgent.includes("mobile") || userAgent.includes("android") || userAgent.includes("iphone")) {
-      // For mobile devices, default to "environment"
-      setIsFrontCamera(false);
-    } else {
+    // if (userAgent.includes("mobile") || userAgent.includes("android") || userAgent.includes("iphone")) {
+    //   // For mobile devices, default to "environment"
+    //   setIsFrontCamera(false);
+    // } else {
       // For laptops/desktops, default to "user"
       setIsFrontCamera(true);
     }
