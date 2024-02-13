@@ -311,9 +311,9 @@ const HandDetect = (props) => {
     }
   }, []);
   const resolveWidthBox = () => {
-    if (Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth > 150) {
+    if (Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth > 250) {
       return Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
-    } else return 150;
+    } else return 250;
   };
 
   useEffect(() => {
@@ -359,7 +359,7 @@ const HandDetect = (props) => {
                         : handSide === "Right"
                         ? `${resultsBox[8].x * window.innerWidth}px`
                         : undefined,
-                      height: resolveWidthBox() * 1.5,
+                      height: resolveWidthBox() * 1.5 + 'px',
                       // width: 280,
                       width: resolveWidthBox() + "px",
                       // minWidth: 220,
