@@ -21,6 +21,7 @@ const HandDetect = (props) => {
   const [resultsBox, setResiltsBox] = useState({});
   const [handSide, setHandSide] = useState({});
   const [showCameraModal, setShowCameraModal] = useState(true);
+  const [cameraMode,setCameraMode] =useState("back")
   //Switch Camera
   const videoCameraRef = useRef(null);
   const [isFrontCamera, setIsFrontCamera] = useState(false);
@@ -176,6 +177,7 @@ const HandDetect = (props) => {
       "accessToken",
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
     );
+    setCameraMode(navigator.platform.includes('Win') ? 'front':'back')
   });
   /////
   // console.log("handSide", handSide);
@@ -366,17 +368,17 @@ const HandDetect = (props) => {
                       position: "absolute",
                       // opacity:'0.3',
                       zIndex: 200,
-                      right: isFrontCamera
+                      right: cameraMode == 'front'
                         ? handSide === "Right"
-                          ? `${(resultsBox[8].x) * window.innerWidth}px`
+                          ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
                           : undefined
                         : handSide === "Left"
                         ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
                         : undefined,
                       // right: isFrontCamera ? (handSide === "Right" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px + 30px)` : undefined) : handSide === "Left" ? `calc(${(1 - resultsBox[8].x) * window.innerWidth}px - 30px)` : undefined,
-                      left: isFrontCamera
+                      left: cameraMode == 'front'
                         ? handSide === "Left"
-                          ? `${(1-resultsBox[8].x) * window.innerWidth}px`
+                          ? `${(resultsBox[8].x) * window.innerWidth}px`
                           : undefined
                         : handSide === "Right"
                         ? `${(1-resultsBox[8].x) * window.innerWidth}px`
@@ -432,6 +434,7 @@ const HandDetect = (props) => {
             }
             <canvas
               id="output_canvas"
+              data-mode={cameraMode}
               style={{
                 position: "absolute",
                 width: "100%",

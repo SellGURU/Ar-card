@@ -79,7 +79,7 @@ button:focus-visible {
   }
 }
 
-#output_canvas{
+#output_canvas[data-mode="back"]{
         -moz-transform: scaleX(-1);
         -o-transform: scaleX(-1);
         -webkit-transform: scaleX(-1);
