@@ -1,3 +1,5 @@
+import axios from "axios";
+
 class Api {
   static baseUrl = "https://vercel-backend-one-roan.vercel.app";
 
@@ -16,6 +18,12 @@ class Api {
     });
     // console.log(response);
     return response.json();
+  }
+
+  static async get(url){
+    const response = axios.get('https://vercel-backend-one-roan.vercel.app/avatalk'+url);
+    return response;    
+
   }
 }
 export default Api;

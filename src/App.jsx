@@ -7,9 +7,9 @@ import HandDetect2 from "./HandDetect2";
 import HandDetect from "./HandDetect";
 import Resome from "./Resume.json";
 import { useConstructor } from "./help";
-import Resume from "./api/Resume";
 import { MoonLoader } from "react-spinners";
 import HandDetect3 from "./HandDetect3";
+
 
 function App() {
   const [boxWidth, setBoxWidth] = useState(window.innerWidth);
@@ -25,7 +25,10 @@ function App() {
       },
     ])
   );
+  
+
   useConstructor(() => {
+
     // Resume.getAll((res) => {
     //   console.log(res)
     //   setResume(res)

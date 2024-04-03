@@ -1,15 +1,16 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 
-import { ButtomController, CvProject } from "./Components";
+import { ButtomController } from "./Components";
 import NewCv from "./Components/Cv/newCv";
 import { useConstructor, makeid } from "./help";
 import annyang from "annyang";
 
 import Flow from "./api/Flow";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import CameraModal from "./Components/Modals/CameraModal";
+import Auth from "./api/Auth";
 // import CameraAccess from "./Components/Modals/CameraAccess";
 // import { LuRefreshCw } from "react-icons/lu";
 
@@ -169,10 +170,26 @@ const HandDetect = (props) => {
   //   };
   // });
   ////
+  const [searchParams] = useSearchParams();
+  const [infoBox,setInfoBox] = useState(props.cardData)
   useConstructor(() => {
     // document.onload = () => {
     //   configure();
     // };
+
+    Auth.getProfile(searchParams.get('user'),(res) => {
+      setInfoBox({
+          webAddress:"",
+          name:res.information.first_name + res.information.last_name ,
+          role:res.information.job_title,
+          phone:res.information.mobile_number,
+          email:res.information.email,
+          linkedin:" ",
+          silentvideo:"./images/02.mp4",
+          chatvideo:"./images/03.mp4",
+          introvideo:"./images/01.mp4"        
+      })
+    })
     localStorage.setItem(
       "accessToken",
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
@@ -394,7 +411,7 @@ const HandDetect = (props) => {
                       overflow: "hidden",
                     }}
                   >
-                    <NewCv cartHeight={cartHeight} cartWidth={resolveWidthBox()} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></NewCv>
+                    <NewCv cartHeight={cartHeight} cartWidth={resolveWidthBox()} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={infoBox}></NewCv>
                     {/* <CvProject cartHeight={cartHeight} cartWidth={cartWidth} chats={chat} isTalking={isTalking} apikey={props.apikey} cardData={props.cardData}></CvProject> */}
                   </div>
                 </>
