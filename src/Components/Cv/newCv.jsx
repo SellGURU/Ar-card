@@ -88,7 +88,7 @@ const NewCv =(props) => {
                         <img src="./call2.svg" alt="" />
                         <div className="text-white cursor-pointer">{props.cardData.phone}</div>
                         </div>
-                        <div
+                        {/* <div
                         className=" flex items-center space-x-1 "
                         onClick={() => {
                             window.open(props.cardData.linkedin);
@@ -96,7 +96,7 @@ const NewCv =(props) => {
                         >
                         <img src="./linkedin2.svg" alt="" />
                         <div className="text-white cursor-pointer">Linkedin</div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className=" flex items-center space-x-1 justify-between leading-[24px] font-[500]" style={{ fontSize: fontsizeTitleResolver2() }}>
                         <div
@@ -108,7 +108,7 @@ const NewCv =(props) => {
                         <img src="./email2.svg" alt="" />
                         <div className="text-white cursor-pointer">{props.cardData.email}</div>
                         </div>
-                        <div
+                        {/* <div
                         className=" flex items-center space-x-1 "
                         onClick={() => {
                             window.open("https://" + props.cardData.webAddress);
@@ -116,7 +116,7 @@ const NewCv =(props) => {
                         >
                         <img src="./global2.svg" alt="" />
                         <div className="text-white cursor-pointer">codie.ai</div>
-                        </div>
+                        </div> */}
                     </div>                                           
                 </div>
                 <div className="flex  flex-col items-center absolute bottom-4 w-full justify-center font-[500] " style={{ fontSize: fontsizeTitleResolver2() }}>

@@ -172,6 +172,7 @@ const HandDetect = (props) => {
   ////
   const [searchParams] = useSearchParams();
   const [infoBox,setInfoBox] = useState(props.cardData)
+  const [userId,setUserId] = useState('')
   useConstructor(() => {
     // document.onload = () => {
     //   configure();
@@ -185,15 +186,16 @@ const HandDetect = (props) => {
           phone:res.information.mobile_number,
           email:res.information.email,
           linkedin:" ",
-          silentvideo:"./images/02.mp4",
-          chatvideo:"./images/03.mp4",
-          introvideo:"./images/01.mp4"        
+          silentvideo:res.information.silent_video_url,
+          chatvideo:res.information.talking_video_avatar,
+          introvideo:res.information.talking_video_avatar        
       })
+      setUserId(res.information.created_userid)
     })
-    localStorage.setItem(
-      "accessToken",
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
-    );
+    // localStorage.setItem(
+    //   "accessToken",
+    //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
+    // );
     setCameraMode(navigator.platform.includes('Win') ? 'front':'back')
   });
   /////
@@ -283,7 +285,9 @@ const HandDetect = (props) => {
         text: newChat.message,
         language: "English",
         message_key: newChat.message_key,
-        apikey: props.apikey,
+        // apikey: props.apikey,
+        chat_user:adminChats.length > 0 ? adminChats[adminChats.length - 1].chat_user: undefined,
+        user_bot_id:userId,
         getcurrentconvesationid: adminChats.length > 0 ? adminChats[adminChats.length - 1].currentconverationid : 1,
       })
         .then((res) => {
@@ -302,6 +306,7 @@ const HandDetect = (props) => {
                 day: new Date().getDate(),
                 aisles: res.answer.suggestion_list !== "NA" ? res.answer.suggestion_list : [],
                 instanceid: res.instanceid,
+                chat_user:res.chat_user
                 // aisles:JSON.parse(res.suggestion_list),
               };
               chats.push(responseApi);
@@ -364,7 +369,7 @@ const HandDetect = (props) => {
   }, [showCameraModal]);
   const handleClose = () => {
     // Navigate to the specified page
-    window.location.href = "https://portal.avatalk.me/#/?splash=false?review=true";
+    window.location.href = "https://portal.avatalk.me/#/share/?user="+userId;
   };
   return (
     <>
@@ -467,7 +472,7 @@ const HandDetect = (props) => {
             </div>
           </div> */}
           <Link
-            to="https://portal.avatalk.me/#/?splash=false?review=true"
+            to={"https://portal.avatalk.me/#/share/?user="+userId}
             style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
           >
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">

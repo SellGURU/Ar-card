@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class Api {
-  static baseUrl = "https://vercel-backend-one-roan.vercel.app";
+  static baseUrl = "https://vercel-backend-one-roan.vercel.app/avatalk";
 
   static async post(url, data) {
     const response = await fetch(this.baseUrl + url, {
