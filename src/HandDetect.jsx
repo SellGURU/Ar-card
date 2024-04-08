@@ -177,7 +177,7 @@ const HandDetect = (props) => {
     // document.onload = () => {
     //   configure();
     // };
-
+    console.log(searchParams.get("view"))
     Auth.getProfile(searchParams.get('user'),(res) => {
       setInfoBox({
           webAddress:"",
@@ -369,7 +369,7 @@ const HandDetect = (props) => {
   }, [showCameraModal]);
   const handleClose = () => {
     // Navigate to the specified page
-    window.location.href = "https://portal.avatalk.me/#/share/?user="+userId;
+    window.location.href = searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/?review=true" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user");
   };
   return (
     <>
@@ -472,7 +472,7 @@ const HandDetect = (props) => {
             </div>
           </div> */}
           <Link
-            to={"https://portal.avatalk.me/#/share/?user="+userId}
+            to={searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/?review=true" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user")}
             style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
           >
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
