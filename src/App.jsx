@@ -9,6 +9,7 @@ import Resome from "./Resume.json";
 import { useConstructor } from "./help";
 import { MoonLoader } from "react-spinners";
 import HandDetect3 from "./HandDetect3";
+import HandDetect4 from "./HandDetect4";
 
 
 function App() {
@@ -59,6 +60,15 @@ function App() {
           ></HandDetect>
         ),
       });
+      resolveRouter.push({
+        path: "detect4",
+        element: (
+          <HandDetect4
+            apikey={resumes[0].apikey}
+            cardData={resumes[0].cardData}
+          ></HandDetect4>
+        ),
+      });      
       resolveRouter.push({
         path: "detect3",
         element: (
