@@ -394,7 +394,7 @@ const HandDetect4 = (props) => {
                           ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
                           : undefined
                         : handSide === "Left"
-                        ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                        ? `${(resultsBox[8].x) * window.innerWidth}px`
                         : undefined,
                       left: cameraMode == 'front'
                         ? handSide === "Left"

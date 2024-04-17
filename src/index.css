@@ -87,6 +87,14 @@ button:focus-visible {
         filter: FlipH;
         -ms-filter: "FlipH";
 }
+/* #output_canvas[data-mode="front"]{
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+} */
 #input_video{
         -moz-transform: scaleX(-1);
         -o-transform: scaleX(-1);
