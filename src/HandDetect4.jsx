@@ -56,6 +56,8 @@ const HandDetect4 = (props) => {
 
   useEffect(() => {
     // console.log(resultsBox.length)
+    // console.log(cameraMode)
+    
     if(resultsBox.length == undefined && videoStarted) {
       setTimeout(() => {
         setShowHelp(true)
@@ -357,7 +359,7 @@ const HandDetect4 = (props) => {
   };
 
   const resolveheightBox = () => {
-    console.log(handSide)
+    console.log(cameraMode)
       // console.log(Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight)
     if (Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight > 250) {
       return Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight;
@@ -393,14 +395,14 @@ const HandDetect4 = (props) => {
                         ? handSide === "Right"
                           ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
                           : undefined
-                        : handSide === "Left"
+                        : handSide === "Right"
                         ? `${(resultsBox[8].x) * window.innerWidth}px`
                         : undefined,
                       left: cameraMode == 'front'
                         ? handSide === "Left"
                           ? `${(resultsBox[8].x) * window.innerWidth}px`
                           : undefined
-                        : handSide === "Right"
+                        : handSide === "Left"
                         ? `${(1-resultsBox[8].x) * window.innerWidth}px`
                         : undefined,
                       height: resolveheightBox()+'px',
