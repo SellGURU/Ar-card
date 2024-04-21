@@ -85,29 +85,47 @@ const CvScreen2 = (props) => {
                             muted
                         >
                             <source id="videoPlayer" key={props.cardData.silentvideo} src={props.cardData.silentvideo} type="video/mp4"></source>
-                        </video>                                                    
-                        <div onClick={() => {
-                            window.open("tel:"+props.cardData.phone)
-                        }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 -top-4 left-14 border absolute border-white">
-                            <img src="./call.svg" />
-                        </div>  
-                        <div onClick={() => {
-                            window.open("tel:"+props.cardData.linkedin)
-                        }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 top-3 left-3 border absolute border-white">
-                            <img src="./linkden.svg" />
-                        </div>      
-
-                        <div onClick={() => {
-                            window.open("tel:"+props.cardData.webAddress)
-                        }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 top-14 -left-3 border absolute border-white">
-                            <img src="./global.svg" />
-                        </div> 
-
+                        </video>     
+                        {props.cardData.phone!= '' ?
+                            <div onClick={() => {
+                                window.open("tel:"+props.cardData.phone)
+                            }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 -top-4 left-14 border absolute border-white">
+                                <img src="./call.svg" />
+                            </div>  
+                        :
+                            <div  style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center opacity-20 rounded-full bg-[#F3F4F6] -top-4 left-14 border absolute border-white">
+                                <img src="./call.svg" />
+                            </div>                          
+                        }                                               
+                        {props.cardData.linkedin != '' ?
+                            <div onClick={() => {
+                                window.open("tel:"+props.cardData.linkedin)
+                            }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 top-3 left-3 border absolute border-white">
+                                <img src="./linkden.svg" />
+                            </div>      
+                        :<div  style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-20 top-3 left-3 border absolute border-white">
+                                <img src="./linkden.svg" />
+                            </div>     }
+                        {props.cardData.webAddress != '' ?
+                            <div onClick={() => {
+                                window.open("tel:"+props.cardData.webAddress)
+                            }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 top-14 -left-3 border absolute border-white">
+                                <img src="./global.svg" />
+                            </div> 
+                        :   <div style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center opacity-20 items-center rounded-full bg-[#F3F4F6]  top-14 -left-3 border absolute border-white">
+                                <img src="./global.svg" />
+                            </div> }
+                        {props.cardData.email != '' ?
                         <div onClick={() => {
                             window.open("tel:"+props.cardData.email)
                         }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 top-[106px] -left-6 border absolute border-white">
                             <img src="./sms.svg" />
                         </div>                                                                                              
+                        :
+                         <div style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-20 top-[106px] -left-6 border absolute border-white">
+                            <img src="./sms.svg" />
+                        </div>       
+                        }
                     </div>
                 </div>
              </div>        

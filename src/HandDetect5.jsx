@@ -372,7 +372,7 @@ const HandDetect5 = (props) => {
   }, [showCameraModal]);
   const handleClose = () => {
     // Navigate to the specified page
-    window.location.href = searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/?review=true" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user");
+    window.location.href = searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/review=true&splash=false" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user");
   };
   return (
     <>
@@ -470,7 +470,7 @@ const HandDetect5 = (props) => {
             </div>
           </div> */}
           <Link
-            to={searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/?review=true" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user")}
+            to={searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/?review=true&splash=false" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user")}
             style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
           >
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
