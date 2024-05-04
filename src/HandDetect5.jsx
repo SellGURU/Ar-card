@@ -33,7 +33,7 @@ const HandDetect5 = (props) => {
     try {
       const constraints = {
         video: {
-          facingMode: "environment" ,
+          facingMode: isFrontCamera? "environment" :'user' ,
         },
       };
 
@@ -464,11 +464,11 @@ const HandDetect5 = (props) => {
               }}
             ></canvas>
           </div>
-          {/* <div style={{ position: "absolute", cursor: "pointer", bottom: 30, right: 50, zIndex: 100 }} onClick={toggleCamera}>
+          <div style={{ position: "absolute", cursor: "pointer", bottom: 30, right: 50, zIndex: 100 }} onClick={toggleCamera}>
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
               <img src="refresh.svg" alt="" className="w-[20px] h-[20px] bg-white" />
             </div>
-          </div> */}
+          </div>
           <Link
             to={searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/?review=true&splash=false" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user")}
             style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
