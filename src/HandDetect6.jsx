@@ -386,7 +386,7 @@ const HandDetect6 = (props) => {
   }, [showCameraModal]);
   const handleClose = () => {
     // Navigate to the specified page
-    window.location.href = searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/review=true&splash=false" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user");
+    window.location.href = searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/?review=true&splash=false" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user");
   };
   return (
     <>
