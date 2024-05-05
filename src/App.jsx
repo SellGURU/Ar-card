@@ -11,6 +11,7 @@ import { MoonLoader } from "react-spinners";
 import HandDetect3 from "./HandDetect3";
 import HandDetect4 from "./HandDetect4";
 import HandDetect5 from "./HandDetect5";
+import HandDetect6 from "./HandDetect6";
 
 
 function App() {
@@ -87,7 +88,16 @@ function App() {
             cardData={resumes[0].cardData}
           ></HandDetect5>
         ),
-      });      
+      });     
+      resolveRouter.push({
+        path: "detect6",
+        element: (
+          <HandDetect6
+            apikey={resumes[0].apikey}
+            cardData={resumes[0].cardData}
+          ></HandDetect6>
+        ),
+      });          
       setRouter(createHashRouter(resolveRouter));
       setIsLaoding(false);
     }, 300);
