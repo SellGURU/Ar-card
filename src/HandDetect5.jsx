@@ -25,6 +25,7 @@ const HandDetect5 = (props) => {
   const [showCameraModal, setShowCameraModal] = useState(true);
   const [cameraMode,setCameraMode] =useState("back")
   //Switch Camera
+  console.log(resultsBox)
   const videoCameraRef = useRef(null);
   const [isFrontCamera, setIsFrontCamera] = useState(false);
   const [showHelp,setShowHelp] = useState(false)
@@ -354,7 +355,7 @@ const HandDetect5 = (props) => {
 , []);
   const resolveWidthBox = () => {
     if (Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth > 250) {
-      return Math.abs(resultsBox[8].x - resultsBox[4].x) * window.innerWidth;
+      return Math.abs(resultsBox[8].x - resultsBox[4].x).toFixed(1) * window.innerWidth;
     } else return 250;
   };
 
@@ -362,7 +363,7 @@ const HandDetect5 = (props) => {
     // console.log(cameraMode)
       // console.log(Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight)
     if (Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight > 250) {
-      return Math.abs(resultsBox[8].y - resultsBox[1].y) * window.innerHeight;
+      return Math.abs(resultsBox[8].y - resultsBox[1].y).toFixed(1) * window.innerHeight;
     } else return 250;
   };
   useEffect(() => {
@@ -393,22 +394,22 @@ const HandDetect5 = (props) => {
                       zIndex: 200,
                       right: cameraMode == 'front'
                         ? handSide === "Right"
-                          ? `${(1 - resultsBox[8].x) * window.innerWidth}px`
+                          ? `${(1 - resultsBox[8].x.toFixed(1)) * window.innerWidth}px`
                           : undefined
                         : handSide === "Right"
-                        ? `${(resultsBox[8].x) * window.innerWidth}px`
+                        ? `${(resultsBox[8].x.toFixed(1)) * window.innerWidth}px`
                         : undefined,
                       left: cameraMode == 'front'
                         ? handSide === "Left"
-                          ? `${(resultsBox[8].x) * window.innerWidth}px`
+                          ? `${(resultsBox[8].x.toFixed(1)) * window.innerWidth}px`
                           : undefined
                         : handSide === "Left"
-                        ? `${(1-resultsBox[8].x) * window.innerWidth}px`
+                        ? `${(1-resultsBox[8].x.toFixed(1)) * window.innerWidth}px`
                         : undefined,
                       height: resolveheightBox()+'px',
                       width: resolveheightBox() / 1.5 + "px",
-                      top: `${resultsBox[8].y * window.innerHeight}px`,
-                      bottom: `${resultsBox[3].y * window.innerHeight}px`,
+                      top: `${resultsBox[8].y.toFixed(1) * window.innerHeight}px`,
+                      bottom: `${resultsBox[3].y.toFixed(1) * window.innerHeight}px`,
                       overflow: "visible",
                     }}
                   >
