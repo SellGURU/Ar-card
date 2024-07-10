@@ -25,7 +25,7 @@ const HandDetect5 = (props) => {
   const [showCameraModal, setShowCameraModal] = useState(true);
   const [cameraMode,setCameraMode] =useState("back")
   //Switch Camera
-  console.log(resultsBox)
+  // console.log(resultsBox)
   const videoCameraRef = useRef(null);
   const [isFrontCamera, setIsFrontCamera] = useState(false);
   const [showHelp,setShowHelp] = useState(false)
@@ -177,6 +177,20 @@ const HandDetect5 = (props) => {
   const [searchParams] = useSearchParams();
   const [infoBox,setInfoBox] = useState(props.cardData)
   const [userId,setUserId] = useState('')
+  const resolveLinkdien =(socialBoxs) => {
+    if(socialBoxs.length == 0 ||!socialBoxs.filter(el => el.type =='Linkedin')[0] ){
+      return ''
+    }else{
+      return socialBoxs.filter(el => el.type =='Linkedin')[0].value
+    }
+  }
+  const resolveWeb =(socialBoxs) => {
+    if(socialBoxs.length == 0  ){
+      return ''
+    }else{
+      return socialBoxs[0].url
+    }
+  }
   useConstructor(() => {
     // document.onload = () => {
     //   configure();
@@ -184,12 +198,12 @@ const HandDetect5 = (props) => {
     console.log(searchParams.get("view"))
     Auth.getProfile(searchParams.get('user'),(res) => {
       setInfoBox({
-          webAddress:"",
+          webAddress:resolveWeb(res?.boxs.filter(el=>el.type_name == 'LinkBox')[0]? res?.boxs.filter(el=>el.type_name == 'LinkBox')[0].links:[]),
           name:res.information.first_name + res.information.last_name ,
           role:res.information.job_title,
           phone:res.information.mobile_number,
           email:res.information.email,
-          linkedin:" ",
+          linkedin:resolveLinkdien(res?.boxs.filter(el=>el.type_name == 'SocialBox')[0]?res?.boxs.filter(el=>el.type_name == 'SocialBox')[0]?.socialMedias:[]),
           silentvideo:res.information.silent_video_url,
           chatvideo:res.information.talking_video_avatar,
           introvideo:res.information.talking_video_avatar        

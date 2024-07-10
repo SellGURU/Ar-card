@@ -24,7 +24,7 @@ const CvScreen2 = (props) => {
         console.log(props.cartWidth)
     });    
     useEffect(() => {
-        console.log(props.isTalking)
+        // console.log(props.isTalking)
         if(props.isTalking == false) {
             setvideourl(props.cardData.silentvideo);
             // setTimeout(() => {
@@ -99,7 +99,7 @@ const CvScreen2 = (props) => {
                         }                                               
                         {props.cardData.linkedin != '' ?
                             <div onClick={() => {
-                                window.open("tel:"+props.cardData.linkedin)
+                                window.open(props.cardData.linkedin)
                             }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 top-3 left-3 border absolute border-white">
                                 <img src="./linkden.svg" />
                             </div>      
@@ -108,7 +108,7 @@ const CvScreen2 = (props) => {
                             </div>     }
                         {props.cardData.webAddress != '' ?
                             <div onClick={() => {
-                                window.open("tel:"+props.cardData.webAddress)
+                                window.open(props.cardData.webAddress)
                             }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 top-14 -left-3 border absolute border-white">
                                 <img src="./global.svg" />
                             </div> 
