@@ -290,6 +290,7 @@ const HandDetect5 = (props) => {
         language: "English",
         message_key: newChat.message_key,
         // apikey: props.apikey,
+        is_ar:true,
         chat_user:adminChats.length > 0 ? adminChats[adminChats.length - 1].chat_user: undefined,
         user_bot_id:userId,
         getcurrentconvesationid: adminChats.length > 0 ? adminChats[adminChats.length - 1].currentconverationid : 1,
