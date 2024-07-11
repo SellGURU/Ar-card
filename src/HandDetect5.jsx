@@ -214,7 +214,7 @@ const HandDetect5 = (props) => {
     //   "accessToken",
     //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZDgwMmZmMzFhIiwiaWF0IjoxNjk5NzYzODk4LCJuYmYiOjE2OTk3NjM4OTgsImp0aSI6ImI2YTYxNGNlLWY1ZWYtNDQ0ZS04ZDJkLTVkYTk2MGEyOWM4ZCIsImV4cCI6MjQ3NzM2Mzg5OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.3xZr9feGtVsxuLpOrfE_Z5vlDRMCpURGog4i7jmco5s"
     // );
-    setCameraMode(navigator.platform.includes('Win') ? 'front':'back')
+    setCameraMode(navigator.platform.includes('Win') ||navigator.platform.includes('Mac') ? 'front':'back')
   });
   /////
   // console.log("handSide", handSide);
