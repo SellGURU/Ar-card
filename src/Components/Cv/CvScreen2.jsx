@@ -117,7 +117,7 @@ const CvScreen2 = (props) => {
                             </div> }
                         {props.cardData.email != '' ?
                         <div onClick={() => {
-                            window.open("tel:"+props.cardData.email)
+                            window.open("mailto:"+props.cardData.email)
                         }} style={{width:props.cartHeight * 15 /100 ,height:props.cartHeight * 15 /100}} className=" flex justify-center items-center rounded-full bg-[#F3F4F6] opacity-70 top-[106px] -left-6 border absolute border-white">
                             <img src="./sms.svg" />
                         </div>                                                                                              
