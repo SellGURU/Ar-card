@@ -22,6 +22,7 @@ const HandDetect5 = (props) => {
   const [audioUrl, setAudioUrl] = useState("");
   const [resultsBox, setResiltsBox] = useState({});
   const [resultLast,setResultLast] = useState([])
+  const [resultLast2,setResultLast2] = useState([])
   const [handSide, setHandSide] = useState({});
   const [showCameraModal, setShowCameraModal] = useState(true);
   const [cameraMode,setCameraMode] =useState("back")
@@ -171,6 +172,16 @@ const HandDetect5 = (props) => {
           result.push(landmarks[8])
           setResultLast(result)
         }
+        if(resultLast2.length< 8){
+          let result = resultLast
+          result.push(landmarks[8])
+          setResultLast2(result)
+        }else{
+          let result = resultLast
+          result.shift()
+          result.push(landmarks[8])
+          setResultLast2(result)
+        }        
         //DRAW CONNECTORS
         // drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
         //   color: "#00FF00",
@@ -445,7 +456,7 @@ const HandDetect5 = (props) => {
                       height: resolveheightBox()+'px',
                       width: resolveheightBox() / 1.5 + "px",
                       top: `${calculateSMA(resultLast.map(e => e.y),3)[0] * window.innerHeight}px`,
-                      bottom: `${calculateSMA(resultLast.map(e => e.y),3)[0] * window.innerHeight}px`,
+                      bottom: `${calculateSMA(resultLast2.map(e => e.y),3)[0] * window.innerHeight}px`,
                       overflow: "visible",
                     }}
                   >
