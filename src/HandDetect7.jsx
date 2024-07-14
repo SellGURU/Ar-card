@@ -566,6 +566,7 @@ const HandDetect5 = (props) => {
         onConfirm={async () => {
           setShowCameraModal(false);
           await navigator.permissions.query( { name: "camera" } );
+          await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
           configure();
         }}
       />
