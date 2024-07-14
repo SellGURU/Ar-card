@@ -12,7 +12,7 @@ import HandDetect3 from "./HandDetect3";
 import HandDetect4 from "./HandDetect4";
 import HandDetect5 from "./HandDetect5";
 import HandDetect6 from "./HandDetect6";
-
+import HandDetect7 from "./HandDetect7";
 
 function App() {
   const [boxWidth, setBoxWidth] = useState(window.innerWidth);
@@ -97,7 +97,16 @@ function App() {
             cardData={resumes[0].cardData}
           ></HandDetect6>
         ),
-      });          
+      });    
+      resolveRouter.push({
+        path: "detect7",
+        element: (
+          <HandDetect7
+            apikey={resumes[0].apikey}
+            cardData={resumes[0].cardData}
+          ></HandDetect7>
+        ),
+      });               
       setRouter(createHashRouter(resolveRouter));
       setIsLaoding(false);
     }, 300);
