@@ -3,7 +3,7 @@ import Api from "./api";
 class Flow extends Api {
     static async chat(data) {
         let response = await fetch(
-        'https://vercel-backend-one-roan.vercel.app/avatalk/flow',
+        'https://vercel-avatalk-six.vercel.app/avatalk/flow',
         {
             method: 'POST',
             mode: 'cors', // no-cors, *cors, same-origin
