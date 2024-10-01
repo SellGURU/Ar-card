@@ -6,9 +6,13 @@ import "./index.css";
 // import HandDetect2 from "./HandDetect2.jsx";
 import App from "./App.jsx";
 import 'symphony-ui/Themes/index.scss';
+import AppContextProvider from "./store/app.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App></App>
+    <AppContextProvider>
+      <App></App>
+
+    </AppContextProvider>
     {/* <HashRouter>
       <Routes>
         <Route index element={<Navigate replace to="/detect2" />} />

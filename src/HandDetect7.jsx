@@ -7,11 +7,13 @@ import { useConstructor, makeid } from "./help";
 import annyang from "annyang";
 
 import Flow from "./api/Flow";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import CameraModal from "./Components/Modals/CameraModal";
 import Auth from "./api/Auth";
 import CvScreen2 from "./Components/Cv/CvScreen2";
+import { AppContext } from "./store/app";
+import AccesNotif from "./Components/AccesNotif";
 // import CameraAccess from "./Components/Modals/CameraAccess";
 // import { LuRefreshCw } from "react-icons/lu";
 
@@ -196,6 +198,7 @@ const HandDetect5 = (props) => {
   //   };
   // });
   ////
+  const appcontext = useContext(AppContext)
   const [searchParams] = useSearchParams();
   const [infoBox,setInfoBox] = useState(props.cardData)
   const [userId,setUserId] = useState('')
@@ -229,6 +232,11 @@ const HandDetect5 = (props) => {
           silentvideo:res.information.silent_video_url,
           chatvideo:res.information.talking_video_avatar,
           introvideo:res.information.talking_video_avatar        
+      })
+      appcontext.setUserAccount({
+        type:res.type_of_account.type,
+        register_date:res.type_of_account.register_date,
+        end_of_date:res.type_of_account.end_of_date        
       })
       setUserId(res.information.created_userid)
     })
@@ -523,6 +531,8 @@ const HandDetect5 = (props) => {
               justifyContent: "center",
             }}
           >
+
+            <AccesNotif></AccesNotif>
             <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
             <div className="">
               <ButtomController isRecording={annyang.isListening()} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
