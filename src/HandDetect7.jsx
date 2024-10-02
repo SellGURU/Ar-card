@@ -511,14 +511,14 @@ const HandDetect5 = (props) => {
             ></canvas>
           </div>
 
-          <Link
+          {/* <Link
             to={searchParams.get("view") == 'review' ?"https://portal.avatalk.me/#/?review=true&splash=false" : "https://portal.avatalk.me/#/share/?user="+searchParams.get("user")}
             style={{ position: "absolute", cursor: "pointer", width: "100%", display: "flex", justifyContent: "center", top: 30, left: 0, zIndex: 100 }}
           >
             <div className=" flex justify-center items-center rounded-full h-[44px] w-[44px] bg-white">
               <img src="close.svg" alt="" className="w-[20px] h-[20px] bg-white" />
             </div>
-          </Link>
+          </Link> */}
           <div
             // className=" absolute bottom-[60px] w-[100%] flex justify-center left-0 right-0 mx-auto"
             style={{
