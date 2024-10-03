@@ -202,6 +202,7 @@ const HandDetect5 = (props) => {
   const [searchParams] = useSearchParams();
   const [infoBox,setInfoBox] = useState(props.cardData)
   const [userId,setUserId] = useState('')
+  const [prerecorded_voice,setprerecorded_voice]= useState(null)
   const resolveLinkdien =(socialBoxs) => {
     if(socialBoxs.length == 0 ||!socialBoxs.filter(el => el.type =='Linkedin')[0] ){
       return ''
@@ -238,7 +239,15 @@ const HandDetect5 = (props) => {
         register_date:res.type_of_account.register_date,
         end_of_date:res.type_of_account.end_of_date        
       })
+      setprerecorded_voice(res.prerecorded_voice)
       setUserId(res.information.created_userid)
+      if(res.prerecorded_voice != null && searchParams.get("view")=="review"){
+        setTimeout(() => {
+          setAudioUrl(res.prerecorded_voice)
+          setIsTalking(true)
+          
+        }, 3000);
+      }
     })
     // localStorage.setItem(
     //   "accessToken",
@@ -532,7 +541,7 @@ const HandDetect5 = (props) => {
             }}
           >
 
-            <AccesNotif></AccesNotif>
+            {/* <AccesNotif></AccesNotif> */}
             <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
             <div className="">
               <ButtomController isRecording={annyang.isListening()} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
