@@ -31,7 +31,8 @@ const AccesNotif = () => {
 
     const resolveText = () => {
         if((appContext.userAccount.type == 'trial' || appContext.userAccount.type == 'free') && searchParams.get("view") =='review'){
-            return " Unlock voice chat with your Avatar! Upgrade to Pro and make your Al persona even more interactive and engaging."
+           return "Upgrade to Pro"
+            // return " Unlock voice chat with your Avatar! Upgrade to Pro and make your Al persona even more interactive and engaging."
         }        
         if(appContext.userAccount.type == 'pro'){
             if(getDaysBetweenDates(appContext.userAccount.end_of_date) <=7 && searchParams.get("view") =='review'){
@@ -47,7 +48,7 @@ const AccesNotif = () => {
     return (
         <>
         {showNotif &&
-            <div className="w-full absolute bottom-16 flex justify-center">
+            <div className="w-full  flex justify-center">
                 {resolveText() =='Upgrade to Pro' ?
                     <div onClick={() => {
                         window.open("https://portal.avatalk.me/#/settings/service")

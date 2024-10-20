@@ -540,9 +540,11 @@ const HandDetect5 = (props) => {
               justifyContent: "center",
             }}
           >
+            <div className="absolute bottom-16 text-center">
+              <div style={{ marginBottom:'10px' }}>{resolveText}</div>
+              <AccesNotif></AccesNotif>
 
-            {/* <AccesNotif></AccesNotif> */}
-            <div style={{ position: "absolute", bottom: 100 }}>{resolveText}</div>
+            </div>
             <div className="">
               <ButtomController isRecording={annyang.isListening()} onstart={startSpeetchToText} onstop={stopSpeetchToText}></ButtomController>
             </div>
