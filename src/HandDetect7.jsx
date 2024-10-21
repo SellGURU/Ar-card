@@ -344,6 +344,7 @@ const HandDetect5 = (props) => {
         message_key: newChat.message_key,
         // apikey: props.apikey,
         is_ar:true,
+        is_preview: searchParams.get("view") == 'review'? true:false,
         chat_user:adminChats.length > 0 ? adminChats[adminChats.length - 1].chat_user: undefined,
         user_bot_id:userId,
         getcurrentconvesationid: adminChats.length > 0 ? adminChats[adminChats.length - 1].currentconverationid : 1,
